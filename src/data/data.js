@@ -4,5 +4,6 @@ const cookieLink = mainLink + "/sanctum/csrf-cookie";
 const loginLink = mainLink + "/api/v1/login"
 const passwordLink = mainLink + "/api/v1/updatepassword";
 const logoutLink = mainLink + "/api/v1/logout"
+const pieChartVolunteerData = mainLink + "/api/v1/datos-voluntarios" ;
 
-export {mainLink, cookieLink, loginLink, passwordLink, logoutLink}
+export {mainLink, cookieLink, loginLink, passwordLink, logoutLink, pieChartVolunteerData}
