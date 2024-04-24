@@ -9,12 +9,7 @@ export default function useAxios(type, URL, content = null) {
     const userToken = JSON.parse(localStorage.getItem("Bearer"))
 
 
-    useEffect(() => {
-        // aqui la peticion para los codigos CSRF
-        axios.get(cookieLink).then(function (response) {
-            setCookie(response);
-        })
-        //
+    const fetchData = async () => {
         switch(type) {
             case "GET":
                 axios.get(URL, {
@@ -80,8 +75,18 @@ export default function useAxios(type, URL, content = null) {
             default:
                 throw new Error(`Unsupported request type: ${type}`);
 
-        }
-    },[URL, type, content])
+    }
+
+
+    useEffect(() => {
+        // aqui la peticion para los codigos CSRF
+        axios.get(cookieLink).then(function (response) {
+            setCookie(response);
+        })
+        //
+        fetchData()
+        }   
+    ,[URL])
 
 
     return [responseData];

@@ -1,8 +1,18 @@
-# React + Vite
+# The Animal Academy App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[Animal Academy](/public/logo-animal-large.png "Animal Academy")
 
-Currently, two official plugins are available:
+Este repositorio es para la pagina de administracion del santuario de animales Animal Academy.
+La pagina tiene la intencion de contener la administracion de voluntarios, animales, tareas, tienda, datos, etc.
+Este repositorio es para el front, este siendo desarrollado por todos.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Las tecnologias principales usadas en este repositorio son :
+
+- React
+- React Router
+- Axios
+- TailwindCSS
+        - Daisy UI
+        - Chakra UI
+
+El back de este repositorio esta en [BackEnd](https://github.com/APAInsular/the-animal-app-back);

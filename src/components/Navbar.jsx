@@ -1,8 +1,11 @@
 import "../index.css";
-import logo from "../../public/logo-animal.png"
 
 import { useState } from "react";
-import { RiHome2Line, RiAccountCircleLine, RiLogoutBoxLine } from 'react-icons/ri';
+import {
+	RiHome2Line,
+	RiAccountCircleLine,
+	RiLogoutBoxLine,
+} from "react-icons/ri";
 
 function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -27,34 +30,84 @@ function Navbar() {
 				{/* Navbar */}
 				<div className="w-full navbar bg-yellow-200 border-b-2 border-black">
 					<div className="flex-none lg:hidden">
-						<label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+						<label
+							htmlFor="my-drawer-3"
+							aria-label="open sidebar"
+							className="btn btn-square btn-ghost"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								className="inline-block w-6 h-6 stroke-current"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
+									d="M4 6h16M4 12h16M4 18h16"
+								></path>
+							</svg>
 						</label>
 					</div>
 					<div className="flex-1 px-2 mx-2">
-						<a href="/"><img src={logo} alt="logo" className="w-20 h-auto" /></a>
+						<a href="/">
+							<img
+								src="/logo-animal-large.png"
+								alt="logo"
+								className="w-20 h-auto"
+							/>
+						</a>
 					</div>
 					<div className="flex-none hidden lg:block">
 						<ul className="menu menu-horizontal">
 							{/* Navbar menu content here */}
-							<a href="/" className="text-black mx-4 text-xl  italic font-bold uppercase hover:text-gray-500">INICIO</a>
-							<a href="/" className="text-black mx-4 text-xl italic font-bold uppercase hover:text-gray-500">MI CUENTA</a>
-							<a href="/" className="text-black mx-4 text-xl italic font-bold uppercase hover:text-gray-400">CERRAR SESION</a>
+							<a
+								href="/"
+								className="text-black mx-4 text-xl  italic font-bold uppercase hover:text-gray-500"
+							>
+								INICIO
+							</a>
+							<a
+								href="/"
+								className="text-black mx-4 text-xl italic font-bold uppercase hover:text-gray-500"
+							>
+								MI CUENTA
+							</a>
+							<a
+								href="/"
+								className="text-black mx-4 text-xl italic font-bold uppercase hover:text-gray-400"
+							>
+								CERRAR SESION
+							</a>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div className="drawer-side">
-				<label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
+				<label
+					htmlFor="my-drawer-3"
+					aria-label="close sidebar"
+					className="drawer-overlay"
+				></label>
 				<ul className="menu p-4 w-80 min-h-full bg-yellow-100">
 					{/* Sidebar content here */}
-					<a href="/" className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center">
+					<a
+						href="/"
+						className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center"
+					>
 						<RiHome2Line className="mr-2" /> Inicio
 					</a>
-					<a href="/" className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center">
+					<a
+						href="/"
+						className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center"
+					>
 						<RiAccountCircleLine className="mr-2" /> Mi Cuenta
 					</a>
-					<a href="/" className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center">
+					<a
+						href="/"
+						className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center"
+					>
 						<RiLogoutBoxLine className="mr-2" /> Cerrar Sesión
 					</a>
 				</ul>
@@ -96,7 +149,6 @@ function Navbar() {
 		//)}
 		//</div>
 		//</nav>
-
 	);
 }
 

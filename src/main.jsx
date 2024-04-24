@@ -14,6 +14,7 @@ import Page404 from "./pages/404.jsx";
 import Principal from "./pages/Principal.jsx";
 import EnterPassword from "./pages/EnterPassword.jsx";
 import PrincipalAdmin from "./pages/PrincipalAdmin.jsx";
+import Voluntarios from "./pages/Voluntarios.jsx";
 
 // ENRUTADOR
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
 	{
 		path: "/main",
 		element: <Principal />,
+	},
+	{
+		path: "/volunteer",
+		element: <Voluntarios />,
 	},
 	{
 		path: "/mainadmin",
