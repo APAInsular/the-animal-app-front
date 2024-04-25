@@ -15,6 +15,7 @@ import Principal from "./pages/Principal.jsx";
 import EnterPassword from "./pages/EnterPassword.jsx";
 import PrincipalAdmin from "./pages/PrincipalAdmin.jsx";
 import Voluntarios from "./pages/Voluntarios.jsx";
+import MyProfile from "./pages/MyProfile.jsx";
 
 // ENRUTADOR
 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
 	{
 		path: "/volunteer",
 		element: <Voluntarios />,
+	},
+	{
+		path: "/account",
+		element: <MyProfile />,
 	},
 	{
 		path: "/mainadmin",

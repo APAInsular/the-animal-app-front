@@ -6,7 +6,7 @@ export default function useAxios(type, URL, content = null) {
 
     const [cookie, setCookie] = useState(null);
     const [responseData, setResponseData] = useState(null);
-    const userToken = JSON.parse(localStorage.getItem("Bearer"))
+    const userToken = JSON.parse(localStorage.getItem("token"))
 
 
     const fetchData = async () => {
@@ -75,7 +75,7 @@ export default function useAxios(type, URL, content = null) {
             default:
                 throw new Error(`Unsupported request type: ${type}`);
 
-    }
+    }}
 
 
     useEffect(() => {

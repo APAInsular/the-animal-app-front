@@ -69,7 +69,7 @@ function Navbar() {
 								INICIO
 							</a>
 							<a
-								href="/"
+								href="/account"
 								className="text-black mx-4 text-xl italic font-bold uppercase hover:text-gray-500"
 							>
 								MI CUENTA
@@ -99,7 +99,7 @@ function Navbar() {
 						<RiHome2Line className="mr-2" /> Inicio
 					</a>
 					<a
-						href="/"
+						href="/account"
 						className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center"
 					>
 						<RiAccountCircleLine className="mr-2" /> Mi Cuenta
