@@ -63,7 +63,7 @@ function Navbar() {
 						<ul className="menu menu-horizontal">
 							{/* Navbar menu content here */}
 							<a
-								href="/"
+								href="/main"
 								className="text-black mx-4 text-xl  italic font-bold uppercase hover:text-gray-500"
 							>
 								INICIO
@@ -93,7 +93,7 @@ function Navbar() {
 				<ul className="menu p-4 w-80 min-h-full bg-yellow-100">
 					{/* Sidebar content here */}
 					<a
-						href="/"
+						href="/main"
 						className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center"
 					>
 						<RiHome2Line className="mr-2" /> Inicio

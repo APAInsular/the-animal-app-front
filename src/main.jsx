@@ -16,6 +16,8 @@ import EnterPassword from "./pages/EnterPassword.jsx";
 import PrincipalAdmin from "./pages/PrincipalAdmin.jsx";
 import Voluntarios from "./pages/Voluntarios.jsx";
 import MyProfile from "./pages/MyProfile.jsx";
+import Animales from "./pages/Animales.jsx";
+import Tareas from "./pages/Tareas.jsx";
 
 // ENRUTADOR
 
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
 	{
 		path: "/account",
 		element: <MyProfile />,
+	},
+	{
+		path: "/animal",
+		element: <Animales />,
+	},
+	{
+		path: "/task",
+		element: <Tareas />,
 	},
 	{
 		path: "/mainadmin",
