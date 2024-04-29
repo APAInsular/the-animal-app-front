@@ -68,18 +68,24 @@ function Navbar() {
 							>
 								INICIO
 							</a>
-							<a
-								href="/account"
-								className="text-black mx-4 text-xl italic font-bold uppercase hover:text-gray-500"
-							>
-								MI CUENTA
-							</a>
-							<a
-								href="/"
-								className="text-black mx-4 text-xl italic font-bold uppercase hover:text-gray-400"
-							>
-								CERRAR SESION
-							</a>
+							<div className="dropdown dropdown-end">
+								<div tabIndex={0} role="button" className="">
+									<a
+										className="text-black mx-4 text-xl  italic font-bold uppercase hover:text-gray-500"
+									>
+										YERAY SANTANA CURBELO
+									</a>
+								</div>
+								<ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+									<li>
+										<a className="justify-between" href="/account">
+										<RiAccountCircleLine className=""/> Mi Cuenta
+											<span className="badge">New</span>
+										</a>
+									</li>
+									<li><a> <RiLogoutBoxLine className="mr-2" />Cerrar Sesión</a></li>
+								</ul>
+							</div>
 						</ul>
 					</div>
 				</div>
@@ -91,6 +97,15 @@ function Navbar() {
 					className="drawer-overlay"
 				></label>
 				<ul className="menu p-4 w-80 min-h-full bg-yellow-100">
+					<div className="drawer-header  py-4 px-6">
+						<a
+							href="/account"
+							className="text-black mx-3 my-2 text-xl flex items-center"
+						>
+							<RiAccountCircleLine className="mr-3" /> YERAY SANTANA
+						</a>
+						<div className="h-px bg-gray-300 my-2"></div>
+					</div>
 					{/* Sidebar content here */}
 					<a
 						href="/main"
@@ -113,42 +128,6 @@ function Navbar() {
 				</ul>
 			</div>
 		</div>
-
-		//<nav className="bg-gray-800 py-4">
-		//<div className="container mx-auto flex justify-between items-center">
-		//	{/* Logo */}
-		//	<a href="/" className="text-white text-2xl font-bold">Logo</a>
-
-		//	{/* Menú */}
-		//	<div className="hidden md:flex items-center">
-		//		<a href="/" className="text-white mx-4 hover:text-gray-400">Inicio</a>
-		//		<a href="/" className="text-white mx-4 hover:text-gray-400">Mi Cuenta</a>
-		//		<a href="/" className="text-white mx-4 hover:text-gray-400">Cerrar Sesión</a>
-		//	</div>
-
-		//	{/* Menú para dispositivos móviles */}
-		//	<div className="md:hidden">
-		//		{/* Hamburger icon */}
-		//		<button className="text-white focus:outline-none" onClick={toggleDrawer}>
-		//			<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-		//				<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-		//			</svg>
-		//		</button>
-		//	</div>
-
-		//	{/* Drawer para dispositivos móviles */}
-		//	{isOpen && (
-		//		<div className="md:hidden drawer-side">
-		//			<label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay" onClick={toggleDrawer}></label>
-		//		<ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-		//			{/* Sidebar content here */}
-		//			<li><a>Sidebar Item 1</a></li>
-		//			<li><a>Sidebar Item 2</a></li>
-		//		</ul>
-		//	</div>
-		//)}
-		//</div>
-		//</nav>
 	);
 }
 
