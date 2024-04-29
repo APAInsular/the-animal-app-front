@@ -1,13 +1,20 @@
 import "../index.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import AnimalesAddForm from "./AnimalesAddForm";
 
 function VistaAnimales() {
 	return (
 		<>
-			<div className=" flex justify-center mt-2">
-				<button className=" w-[90%] bg-[#26dd9a] rounded-lg p-2 border border-black shadow-md hover:scale-105 transition-all font-bold text-lg">
-					Añadir Animal
-				</button>
+			<div className=" flex justify-center mt-2 px-4">
+				<div className="collapse bg-[#26dd9a] border border-black">
+					<input type="checkbox" />
+					<div className="collapse-title text-xl font-medium text-center">
+						Crear Nuevo Animal
+					</div>
+					<div className="collapse-content bg-[#f4f0f0] border-t-2 border-black p-1">
+						<AnimalesAddForm />
+					</div>
+				</div>
 			</div>
 			<div>
 				<div className="w-[90%] mx-auto p-1 flex flex-row">
