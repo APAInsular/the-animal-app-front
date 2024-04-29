@@ -52,6 +52,9 @@ function MyProfile() {
 						value="Guardar cambios"
 						className="p-2 bg-[#26dd9a] font-bold w-40 border border-black rounded-lg mx-auto mt-4 cursor-pointer hover:scale-105 transition-all"
 					/>
+					<button className="p-2 text-white bg-red-600 font-bold w-40 border border-black rounded-lg mx-auto mt-4 cursor-pointer hover:scale-105 transition-all">
+						Pedir eliminar mi cuenta
+					</button>
 				</form>
 			</div>
 		</div>
