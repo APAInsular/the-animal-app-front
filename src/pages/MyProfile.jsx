@@ -1,64 +1,73 @@
-import { useState } from "react";
-import "../index.css";
-import { FaRegEdit } from "react-icons/fa";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 
 function MyProfile() {
-	const [isEditing, setIsEditing] = useState(false);
+	const [modifyingData, setModifyingData] = useState(false);
+
+	const handleModifyData = () => {
+		setModifyingData(!modifyingData);
+	};
+
+	const handleAcceptChanges = () => {
+		// Lógica para aceptar los cambios
+		setModifyingData(false);
+		// Lógica adicional si es necesario
+	};
+
+	const handleRequestDeletion = () => {
+		// Lógica para solicitar el borrado de cuenta
+		// Puede mostrar un modal de confirmación antes de enviar la solicitud
+	};
 
 	return (
-		<div>
+		<div className="min-h-screen bg-gray-100">
 			<Navbar />
-			<div className="flex justify-center mt-2 w-screen">
-				<div className="bg-[#ffeb35] p-2 flex flex-row border border-black rounded-lg shadow-lg">
-					<h2 className="text-4xl font-bold me-4">Mi Perfil</h2>
-					<button className="" onClick={() => setIsEditing(!isEditing)}>
-						<FaRegEdit size={"2em"} />
-					</button>
+			{/* Encabezado de la página */}
+			<div className="text-center text-2xl font-bold mt-8 mb-4">Mi Perfil</div>
+			{/* Contenedor de los datos del usuario */}
+			<div className="max-w-md mx-auto border p-4 bg-white rounded-lg shadow-lg">
+				{/* Título y datos del nombre */}
+				<div className="mb-4">
+					<div className="font-semibold">Nombre:</div>
+					<div>NombreUsuario</div>
 				</div>
-			</div>
-			<div className={`${isEditing ? "hidden" : "block"}`}>
-				<p className="font-bold text-center mt-3 text-2xl">Juan</p>
-				<p className="font-bold text-center mt-3 text-xl">
-					juanito123@gmail.com
-				</p>
-				<p className="font-bold text-center mt-3 text-2xl">+34 666606666</p>
-			</div>
-			<div className={`${isEditing ? "block" : "hidden"}`}>
-				<form action="" className="flex flex-col justify-center">
-					<input
-						type="text"
-						name="name"
-						id="name"
-						value={"Juan"}
-						className="font-bold text-center mt-3 text-2xl bg-[#d9d9d9] border border-black shadow-md rounded-md w-[80%] lg:w-[30%] mx-auto"
-					/>
-					<input
-						type="email"
-						name="mail"
-						id="mail"
-						value={"juanito123@gmail.com"}
-						className="font-bold text-center mt-3 text-xl bg-[#d9d9d9] border border-black shadow-md rounded-md w-[80%] lg:w-[30%] mx-auto"
-					/>
-					<input
-						type="text"
-						name="tlf"
-						id="tlf"
-						value={"+34 666606666"}
-						className="font-bold text-center mt-3 text-2xl bg-[#d9d9d9] border border-black shadow-md rounded-md w-[80%] lg:w-[30%] mx-auto"
-					/>
-					<input
-						type="submit"
-						value="Guardar cambios"
-						className="p-2 bg-[#26dd9a] font-bold w-40 border border-black rounded-lg mx-auto mt-4 cursor-pointer hover:scale-105 transition-all"
-					/>
-					<button className="p-2 text-white bg-red-600 font-bold w-40 border border-black rounded-lg mx-auto mt-4 cursor-pointer hover:scale-105 transition-all">
-						Pedir eliminar mi cuenta
+				{/* Título y datos del correo electrónico */}
+				<div className="mb-4">
+					<div className="font-semibold">Correo electrónico:</div>
+					<div>correo@example.com</div>
+				</div>
+				{/* Título y datos del teléfono */}
+				<div className="mb-4">
+					<div className="font-semibold">Teléfono:</div>
+					<div>123456789</div>
+				</div>
+				{/* Botón para modificar datos */}
+				{!modifyingData ? (
+					<button
+						className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2 my-2 w-full"
+						onClick={handleModifyData}
+					>
+						Modificar Datos
 					</button>
-				</form>
+				) : (
+					<button
+						className="bg-green-500 text-white px-4 py-2 rounded-lg mr-2 w-full"
+						onClick={handleAcceptChanges}
+					>
+						Aceptar Cambios
+					</button>
+				)}
+				{/* Botón para solicitar borrado de cuenta */}
+				<button
+					className="bg-red-500 text-white px-4 py-2 mr-2 my-2 rounded-lg w-full"
+					onClick={handleRequestDeletion}
+				>
+					Solicitar Borrado de Cuenta
+				</button>
 			</div>
 		</div>
 	);
 }
 
 export default MyProfile;
+
