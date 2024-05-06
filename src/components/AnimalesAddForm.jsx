@@ -1,3 +1,4 @@
+import "../index.css";
 import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { TbTrash } from "react-icons/tb";
@@ -12,18 +13,18 @@ function AnimalesAddForm() {
 	//     fecha: "10/11/2024"
 	// }
 
-	const handleNewVacuna = () => {
+	const handleNewVacuna = (e) => {
 		console.log("agregando vacuna");
-		let newVacunas = vacunas;
-		newVacunas.push({
-			name: "",
-			uuid: Crypto.randomUUID(),
-			fecha: Date.now(),
-		});
-		setVacunas(newVacunas);
+		e.preventDefault();
+		setVacunas((prevVacunas) => [
+			...prevVacunas,
+			{ name: "", uuid: Crypto.randomUUID(), fecha: Date.now() },
+		]);
 	};
 
-	const handleDeleteOldVacuna = (uuid) => {};
+	const handleDeleteOldVacuna = (uuid) => {
+		console.log("algo");
+	};
 
 	return (
 		<form action="" className="flex flex-col">
@@ -173,7 +174,7 @@ function AnimalesAddForm() {
 					<button
 						className="p-2 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
 						onClick={() => {
-							handleNewVacuna;
+							handleNewVacuna();
 						}}
 					>
 						<BiPlus />
@@ -185,6 +186,7 @@ function AnimalesAddForm() {
 							<div className="flex flex-row">
 								<input type="text" name={vacuna.uuid} id={vacuna.uuid} />
 								<button
+									type="button"
 									className="border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
 									onClick={() => handleDeleteOldVacuna(vacuna.uuid)}
 								>

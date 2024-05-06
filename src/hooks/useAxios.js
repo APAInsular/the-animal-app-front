@@ -2,92 +2,43 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { cookieLink } from "../data/data";
 
-export default function useAxios(type, URL, content = null) {
-
-    const [cookie, setCookie] = useState(null);
+export default function useAxios(type, url, content = null) {
     const [responseData, setResponseData] = useState(null);
-    const userToken = JSON.parse(localStorage.getItem("token"))
-
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const userToken = JSON.parse(localStorage.getItem("token"));
 
     const fetchData = async () => {
-        switch(type) {
-            case "GET":
-                axios.get(URL, {
-                    headers: {
-                        // headers
-                        "X-CSRF-TOKEN": cookie,
-                        "Authorization": `Bearer ${userToken}`,
-                        "Content-Type": "application/json"
-                    }
-                }).then(function (response) {
-                    setResponseData(response);
-                })
-                break;
+        setIsLoading(true);
+        setError(null); // Clear any previous errors before making the request
 
-            case "POST":
-                axios.post(URL, content, {
-                    headers : {
-                        "X-CSRF-TOKEN": cookie,
-                        "Authorization": `Bearer ${userToken}`,
-                        "Content-Type": "application/json"
-                    }
-                }).then(function (response) {
-                    setResponseData(response)
-                })
-                break;
+        try {
+            const response = await axios({
+                method: type,
+                url,
+                data: content, // Include data for POST, PUT, PATCH requests
+                headers: {
+                    "X-CSRF-TOKEN": await getCsrfToken(), // Fetch CSRF token asynchronously
+                    "Authorization": `Bearer ${userToken}`,
+                    "Content-Type": "application/json",
+                },
+        });
+        setResponseData(response.data); // Access data property for response object
+        } catch (error) {
+        setError(error);
+        } finally {
+        setIsLoading(false);
+        }
+    };
 
-            case "PUT":
-                axios.put(URL, content, {
-                    headers: {
-                        "X-CSRF-TOKEN": cookie,
-                        "Authorization": `Bearer ${userToken}`,
-                        "Content-Type": "application/json"
-                    }
-                }).then(function (response) {
-                    setResponseData(response)
-                })
-                break;
-
-            case "PATCH":
-                axios.patch(URL, content, {
-                    headers: {
-                        "X-CSRF-TOKEN": cookie,
-                        "Authorization": `Bearer ${userToken}`,
-                        "Content-Type": "application/json"
-                    }
-                }).then(function (response) {
-                    setResponseData(response)
-                })
-                break;
-
-            case "DELETE":
-                axios.delete(URL, {
-                    headers: {
-                        "X-CSRF-TOKEN": cookie,
-                        "Authorization": `Bearer ${userToken}`,
-                        "Content-Type": "application/json"
-                    }
-                }).then(function (response) {
-                    setResponseData(response)
-                })
-                break;
-
-            default:
-                throw new Error(`Unsupported request type: ${type}`);
-
-    }}
-
+    const getCsrfToken = async () => {
+        const csrfResponse = await axios.get(cookieLink);
+        return csrfResponse.data; // Access data property for CSRF response
+    };
 
     useEffect(() => {
-        // aqui la peticion para los codigos CSRF
-        axios.get(cookieLink).then(function (response) {
-            setCookie(response);
-        })
-        //
-        fetchData()
-        }   
-    ,[URL])
+        fetchData();
+    }, [url, type, content]); // Re-fetch data on changes to url, type, or content
 
-
-    return [responseData];
+    return [responseData, error, isLoading];
 }

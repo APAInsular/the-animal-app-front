@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./index.css";
 import { FaUser, FaKey } from "react-icons/fa";
-import { loginLink } from "./data/data";
+import { cookieLink, loginLink } from "./data/data";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 
@@ -9,7 +9,7 @@ function App() {
 	// logica para el inicio de sesion y el fallo de inicio de sesion
 
 	const [userData, setUserData] = useState({
-		user: "",
+		email: "",
 		password: "",
 	});
 
@@ -22,18 +22,22 @@ function App() {
 	};
 
 	const handleSubmit = (event) => {
-		event.preventDefault;
+		event.preventDefault();
+		axios.get(cookieLink).then(function (response) {
+			localStorage.setItem("csrf", JSON.stringify(response));
+		});
 		axios
 			.post(loginLink, userData)
 			.then(function (response) {
+				console.log(response);
 				toast.success("Inicio de sesión exitoso", {
 					autoClose: 900,
 					theme: "colored",
 				});
-				localStorage.setItem("token", JSON.stringify(response.data.token));
-				localStorage.setItem("user", JSON.stringify(response.data.data));
+				localStorage.setItem("token", JSON.stringify(response.data.data.token));
+				localStorage.setItem("user", JSON.stringify(response.data.data.user));
 				setTimeout(() => {
-					if (response.data.data.type == "admin") {
+					if (response.data.data.user.rol_id == 1) {
 						window.location.href = "/mainadmin";
 					} else {
 						window.location.href = "/main";
@@ -72,13 +76,12 @@ function App() {
 							htmlFor="user"
 							className="font-bold w-full text-2xl flex items-center"
 						>
-							Usuario <FaUser className="ms-3" />{" "}
+							Email <FaUser className="ms-3" />{" "}
 						</label>
 						<input
-							type="text"
-							onChange={handleChange}
-							value={userData.user}
-							name="user"
+							type="email"
+							onChange={(e) => handleChange(e)}
+							name="email"
 							id="user"
 							className="w-full rounded-lg p-2 border border-black shadow-lg mx-auto mb-2 mt-2"
 						/>
@@ -90,8 +93,7 @@ function App() {
 						</label>
 						<input
 							type="password"
-							onChange={handleChange}
-							value={userData.password}
+							onChange={(e) => handleChange(e)}
 							name="password"
 							id="password"
 							className="w-full rounded-lg p-2 border border-black shadow-lg mx-auto mb-2 mt-2"
@@ -122,13 +124,12 @@ function App() {
 							htmlFor="username"
 							className="font-bold w-full text-3xl flex items-center"
 						>
-							Usuario <FaUser className="ms-3" />{" "}
+							Email <FaUser className="ms-3" />{" "}
 						</label>
 						<input
-							type="text"
-							name="user"
-							onChange={handleChange}
-							value={userData.user}
+							type="email"
+							name="email"
+							onChange={(e) => handleChange(e)}
 							id="user"
 							className="w-full rounded-lg p-2 border border-black shadow-lg mx-auto mb-3 mt-3"
 						/>
@@ -141,8 +142,7 @@ function App() {
 						<input
 							type="password"
 							name="password"
-							onChange={handleChange}
-							value={userData.password}
+							onChange={(e) => handleChange(e)}
 							id="password"
 							className="w-full rounded-lg p-2 border border-black shadow-lg mx-auto mb-3 mt-3"
 						/>

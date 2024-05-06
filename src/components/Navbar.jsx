@@ -1,6 +1,6 @@
 import "../index.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	RiHome2Line,
 	RiAccountCircleLine,
@@ -9,6 +9,7 @@ import {
 
 function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
+	const [userData, setUserData] = useState({});
 
 	const toggleDrawer = () => {
 		setIsOpen(!isOpen);
@@ -22,6 +23,11 @@ function Navbar() {
 	// ) : (
 	//     ""
 	// )}
+
+	useEffect(() => {
+		const data = JSON.parse(localStorage.getItem("user"));
+		setUserData(data);
+	}, []);
 
 	return (
 		<div className="drawer ">
@@ -70,20 +76,27 @@ function Navbar() {
 							</a>
 							<div className="dropdown dropdown-end">
 								<div tabIndex={0} role="button" className="">
-									<a
-										className="text-black mx-4 text-xl  italic font-bold uppercase hover:text-gray-500"
-									>
-										YERAY SANTANA CURBELO
+									<a className="text-black mx-4 text-xl  italic font-bold uppercase hover:text-gray-500">
+										{userData.name}
 									</a>
 								</div>
-								<ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+								<ul
+									tabIndex={0}
+									className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+								>
 									<li>
 										<a className="justify-between" href="/account">
-										<RiAccountCircleLine className=""/> Mi Cuenta
+											<RiAccountCircleLine className="" /> Mi Cuenta
 											<span className="badge">New</span>
 										</a>
 									</li>
-									<li><a> <RiLogoutBoxLine className="mr-2" />Cerrar Sesión</a></li>
+									<li>
+										<a>
+											{" "}
+											<RiLogoutBoxLine className="mr-2" />
+											Cerrar Sesión
+										</a>
+									</li>
 								</ul>
 							</div>
 						</ul>
@@ -102,7 +115,7 @@ function Navbar() {
 							href="/account"
 							className="text-black mx-3 my-2 text-xl flex items-center"
 						>
-							<RiAccountCircleLine className="mr-3" /> YERAY SANTANA
+							<RiAccountCircleLine className="mr-3" /> {userData.name}
 						</a>
 						<div className="h-px bg-gray-300 my-2"></div>
 					</div>

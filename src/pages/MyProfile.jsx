@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../index.css";
 import { FaRegEdit } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 
 function MyProfile() {
 	const [isEditing, setIsEditing] = useState(false);
+	const [userData, setUserData] = useState({});
+	useEffect(() => {
+		const data = JSON.parse(localStorage.getItem("user"));
+		setUserData(data);
+	}, []);
 
 	return (
 		<div>
@@ -18,10 +23,8 @@ function MyProfile() {
 				</div>
 			</div>
 			<div className={`${isEditing ? "hidden" : "block"}`}>
-				<p className="font-bold text-center mt-3 text-2xl">Juan</p>
-				<p className="font-bold text-center mt-3 text-xl">
-					juanito123@gmail.com
-				</p>
+				<p className="font-bold text-center mt-3 text-2xl">{userData.name}</p>
+				<p className="font-bold text-center mt-3 text-xl">{userData.email}</p>
 				<p className="font-bold text-center mt-3 text-2xl">+34 666606666</p>
 			</div>
 			<div className={`${isEditing ? "block" : "hidden"}`}>
@@ -30,14 +33,14 @@ function MyProfile() {
 						type="text"
 						name="name"
 						id="name"
-						value={"Juan"}
+						value={userData.name}
 						className="font-bold text-center mt-3 text-2xl bg-[#d9d9d9] border border-black shadow-md rounded-md w-[80%] lg:w-[30%] mx-auto"
 					/>
 					<input
 						type="email"
 						name="mail"
 						id="mail"
-						value={"juanito123@gmail.com"}
+						value={userData.email}
 						className="font-bold text-center mt-3 text-xl bg-[#d9d9d9] border border-black shadow-md rounded-md w-[80%] lg:w-[30%] mx-auto"
 					/>
 					<input

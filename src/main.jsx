@@ -36,7 +36,7 @@ const router = createBrowserRouter([
 		element: <TareasVoluntario />,
 	},
 	{
-		path: "/volunteer",
+		path: "/volunteers",
 		element: <Voluntarios />,
 	},
 	{

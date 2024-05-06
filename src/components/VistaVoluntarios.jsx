@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import "../index.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { cookieLink, getVolunteers } from "../data/data";
+import axios from "axios";
 
 function VistaVoluntarios() {
 	// para despues cuando tenga mas cosas
@@ -12,6 +15,26 @@ function VistaVoluntarios() {
 	// 		<p>hello</p>
 	// 	</div>
 	// </div>;
+
+	const [volunteer, setVolunteer] = useState([]);
+
+	useEffect(() => {
+		const userToken = JSON.parse(localStorage.getItem("token"));
+		axios.get(cookieLink).then(function (response) {
+			axios
+				.get(getVolunteers, {
+					headers: {
+						"X-CSRF-TOKEN": response.data.token, // Fetch CSRF token asynchronously
+						Authorization: `Bearer ${userToken}`,
+						"Content-Type": "application/json",
+					},
+				})
+				.then(function (response) {
+					console.log(response);
+					setVolunteer(response.data);
+				});
+		});
+	}, []);
 
 	return (
 		<div className=" flex flex-row">
@@ -88,7 +111,17 @@ function VistaVoluntarios() {
 					</button>
 				</div>
 				<div className="overflow-y-scroll">
-					{/* aqui es donde va lo de usuarios */}
+					{volunteer.map((volunteer, index) => (
+						<div key={index} className="collapse collapse-arrow bg-base-200">
+							<input type="radio" name={index} defaultChecked />
+							<div className="collapse-title text-xl font-medium">
+								{volunteer.name}
+							</div>
+							<div className="collapse-content">
+								<p>hello</p>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 			<div className="lg:hidden w-full">
@@ -171,7 +204,17 @@ function VistaVoluntarios() {
 						</button>
 					</div>
 					<div className="overflow-y-scroll">
-						{/* aqui es donde va lo de usuarios */}
+						{volunteer.map((volunteer, index) => (
+							<div key={index} className="collapse collapse-arrow bg-base-200">
+								<input type="radio" name={index} defaultChecked />
+								<div className="collapse-title text-xl font-medium">
+									{volunteer.name}
+								</div>
+								<div className="collapse-content">
+									<p>hello</p>
+								</div>
+							</div>
+						))}
 					</div>
 				</div>
 			</div>
