@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
 import { FaUser, FaKey } from "react-icons/fa";
 import { cookieLink, loginLink } from "./data/data";
 import { ToastContainer, toast } from "react-toastify";
