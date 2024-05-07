@@ -3,6 +3,8 @@ import "../index.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { cookieLink, getVolunteers } from "../data/data";
 import axios from "axios";
+import useAxios from "../hooks/useAxios";
+import VoluntarioDesplegable from "./VoluntarioDesplegable";
 
 function VistaVoluntarios() {
 	// para despues cuando tenga mas cosas
@@ -110,17 +112,9 @@ function VistaVoluntarios() {
 						<FaMagnifyingGlass />
 					</button>
 				</div>
-				<div className="overflow-y-scroll">
+				<div className="overflow-y-scroll ps-2">
 					{volunteer.map((volunteer, index) => (
-						<div key={index} className="collapse collapse-arrow bg-base-200">
-							<input type="radio" name={index} defaultChecked />
-							<div className="collapse-title text-xl font-medium">
-								{volunteer.name}
-							</div>
-							<div className="collapse-content">
-								<p>hello</p>
-							</div>
-						</div>
+						<VoluntarioDesplegable datos={volunteer} key={index} />
 					))}
 				</div>
 			</div>
