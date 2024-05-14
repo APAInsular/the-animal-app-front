@@ -6,10 +6,13 @@ const loginLink = mainLink + "/api/login"
 const passwordLink = mainLink + "/api/updatepassword";
 const logoutLink = mainLink + "/api/logout"
 const getVolunteers = mainLink + "/api/voluntarios";
-const pieChartVolunteerData = mainLink + "/api/v1/datos-voluntarios" ;
+const pieChartVolunteerData = mainLink + "/api/v1/datos-voluntarios";
+const animalsLink = mainLink + "/api/animal";
 const getCsrfToken = async () => {
     const csrfResponse = await axios.get(cookieLink);
     return csrfResponse.data; // Access data property for CSRF response
 };
 
-export {mainLink, cookieLink, loginLink, passwordLink, logoutLink, pieChartVolunteerData, getVolunteers, getCsrfToken}
+export {
+    mainLink, cookieLink, loginLink, passwordLink, logoutLink, pieChartVolunteerData, getVolunteers, animalsLink, getCsrfToken
+}

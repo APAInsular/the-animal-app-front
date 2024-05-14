@@ -25,7 +25,7 @@ function PrincipalAdmin() {
 					</h2>
 				</a>
 				<a
-					href="/animals"
+					href="/animal"
 					className="group/animal overflow-hidden flex justify-center flex-col bg-[#d9d9d9] sm:max-h-96 p-2 border-2 border-black shadow-md mt-8 lg:mt-0 rounded-lg m-1"
 				>
 					<IoMdPaw
