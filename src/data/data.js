@@ -16,7 +16,7 @@ const getTareas = mainLink + "/api/tareas";
 const updateTareas = mainLink + "/api/tareas/"
 const getFormacion = mainLink + "/api/formacion"
 const pieChartVolunteerData = mainLink + "/api/datos-voluntarios" ;
-const animalsLink = mainLink + "/api/animal/"
+const animalsLink = mainLink + "/api/animal"
 const getCsrfToken = async () => {
     const csrfResponse = await axios.get(cookieLink);
     return csrfResponse.data; // Access data property for CSRF response
