@@ -1,7 +1,38 @@
+import { useEffect, useState } from "react";
 import "../index.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import axios from "axios";
+import {
+	cookieLink,
+	getAnimales,
+	getTareas,
+	getVolunteers,
+} from "../data/data";
+import TareasAdminDesplegable from "./TareasAdminDesplegable";
 
 function VistaTareas() {
+	const [volunteer, setVolunteer] = useState([]);
+	const [animal, setAnimal] = useState([]);
+	const [tareas, setTareas] = useState([]);
+
+	useEffect(() => {
+		axios.get(cookieLink).then(function () {
+			// peticion de animales;
+			axios.get(getAnimales).then(function (response1) {
+				console.log(response1);
+				setAnimal(response1.data);
+			});
+			axios.get(getVolunteers).then(function (response2) {
+				console.log(response2);
+				setVolunteer(response2.data);
+			});
+			axios.get(getTareas).then(function (response3) {
+				console.log(response3);
+				setTareas(response3.data);
+			});
+		});
+	}, []);
+
 	return (
 		<div className=" flex flex-row">
 			<div className="hidden lg:block w-3/12 p-2 border-e-2 border-black">
@@ -12,15 +43,15 @@ function VistaTareas() {
 						</label>
 						<input
 							type="text"
-							name="name"
-							id="name"
+							name="nombre"
+							id="nombre"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
 						/>
 						<label className="font-bold text-xl mt-2" htmlFor="description">
 							Descripcion
 						</label>
 						<textarea
-							name="description"
+							name="descripcion"
 							id="description"
 							cols="20"
 							rows="10"
@@ -30,26 +61,50 @@ function VistaTareas() {
 							<label className="font-bold text-xl" htmlFor="repit">
 								Se repite semanalmente
 							</label>
-							<input type="checkbox" name="repit" id="repit" className="ms-4" />
+							<input
+								type="checkbox"
+								name="SeRepite"
+								id="SeRepite"
+								className="ms-4"
+							/>
 						</div>
 						<label className="font-bold text-xl mt-2" htmlFor="date">
 							Fecha
 						</label>
 						<input
 							type="date"
-							name="date"
-							id="date"
+							name="fecha"
+							id="fecha"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
 						/>
 						<label className="font-bold text-xl mt-2" htmlFor="volunteer">
 							Voluntario
 						</label>
 						<select
-							name="volunteer"
-							id="volunteer"
+							name="voluntario_id"
+							id="voluntario_id"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
-							multiple
-						></select>
+						>
+							{volunteer.map((voluntario, index) => (
+								<option key={index} value={voluntario.id}>
+									{voluntario.nombre}
+								</option>
+							))}
+						</select>
+						<label className="font-bold text-xl mt-2" htmlFor="animal">
+							Animal
+						</label>
+						<select
+							name="animal_id"
+							id="animal_id"
+							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
+						>
+							{animal.map((animals, index) => (
+								<option key={index} value={animals.id}>
+									{animals.nombre}
+								</option>
+							))}
+						</select>
 						<input
 							type="submit"
 							value="Confirmar"
@@ -73,8 +128,16 @@ function VistaTareas() {
 						<FaMagnifyingGlass />
 					</button>
 				</div>
-				<div className="overflow-y-scroll">
+				<div className="overflow-y-scroll ps-2">
 					{/* aqui es donde va lo de usuarios */}
+					{tareas.map((task, index) => (
+						<TareasAdminDesplegable
+							key={index}
+							datos={task}
+							voluntarios={volunteer}
+							animales={animal}
+						/>
+					))}
 				</div>
 			</div>
 			<div className="lg:hidden w-full">
@@ -158,8 +221,15 @@ function VistaTareas() {
 							<FaMagnifyingGlass />
 						</button>
 					</div>
-					<div className="overflow-y-scroll">
-						{/* aqui es donde va lo de usuarios */}
+					<div className="overflow-y-scroll ps-3">
+						{tareas.map((task, index) => (
+							<TareasAdminDesplegable
+								key={index}
+								datos={task}
+								voluntarios={volunteer}
+								animales={animal}
+							/>
+						))}
 					</div>
 				</div>
 			</div>

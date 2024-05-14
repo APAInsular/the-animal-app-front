@@ -69,7 +69,7 @@ function Navbar() {
 						<ul className="menu menu-horizontal">
 							{/* Navbar menu content here */}
 							<a
-								href="/main"
+								href={userData.rol_id == 1 ? "/mainadmin" : "/main"}
 								className="text-black mx-4 text-xl  italic font-bold uppercase hover:text-gray-500"
 							>
 								INICIO
@@ -87,7 +87,6 @@ function Navbar() {
 									<li>
 										<a className="justify-between" href="/account">
 											<RiAccountCircleLine className="" /> Mi Cuenta
-											<span className="badge">New</span>
 										</a>
 									</li>
 									<li>
@@ -121,7 +120,7 @@ function Navbar() {
 					</div>
 					{/* Sidebar content here */}
 					<a
-						href="/main"
+						href={userData.rol_id == 1 ? "/mainadmin" : "/main"}
 						className="text-black mx-4 my-2 text-xl hover:text-gray-400 flex items-center"
 					>
 						<RiHome2Line className="mr-2" /> Inicio
