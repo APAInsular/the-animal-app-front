@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../index.css";
+import 'react-toastify/dist/ReactToastify.css';
 import { passwordLink } from "../data/data";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -25,7 +25,7 @@ function App() {
 	};
 
 	const handleSubmit = (event) => {
-		event.preventDefault;
+		event.preventDefault(); // Agrega los paréntesis aquí
 		axios
 			.post(passwordLink, userData)
 			.then(function (response) {
@@ -106,6 +106,7 @@ function App() {
 					</form>
 				</div>
 			</div>
+			<ToastContainer />
 			<div className=" hidden lg:flex flex-row h-full items-center justify-around">
 				<img
 					src="/logo-animal-large.png"
@@ -153,7 +154,7 @@ function App() {
 					</form>
 				</div>
 			</div>
-			<ToastContainer />
+
 		</div>
 	);
 }

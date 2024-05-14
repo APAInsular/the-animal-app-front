@@ -19,6 +19,8 @@ import MyProfile from "./pages/MyProfile.jsx";
 import Animales from "./pages/Animales.jsx";
 import Tareas from "./pages/Tareas.jsx";
 import TareasVoluntario from "./pages/TareasVoluntario.jsx";
+import Padrinos from "./pages/Padrinos.jsx";
+
 
 // ENRUTADOR
 
@@ -29,7 +31,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/main",
-		element: <Principal />
+		element: <Principal />,
 	},
 	{
 		path: "/tareasvoluntario",
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
 		element: <Voluntarios />,
 	},
 	{
+		path: "/donators",
+		element: <Padrinos />,
+	},
+	{
 		path: "/account",
 		element: <MyProfile />,
 	},
@@ -48,7 +54,7 @@ const router = createBrowserRouter([
 		element: <Animales />,
 	},
 	{
-		path: "/task",
+		path: "/tasks",
 		element: <Tareas />,
 	},
 	{
