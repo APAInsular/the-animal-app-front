@@ -17,9 +17,14 @@ const updateTareas = mainLink + "/api/tareas/"
 const getFormacion = mainLink + "/api/formacion"
 const pieChartVolunteerData = mainLink + "/api/datos-voluntarios" ;
 const animalsLink = mainLink + "/api/animal/"
+const volunteerTasks = mainLink + "/api/voluntarios/tareas/"
+const alimentacionesLink = mainLink + "/api/alimentaciones";
+const cuidadosLink = mainLink + "/api/cuidados";
+const necesidadesLink = mainLink + "/api/necesidades";
+
 const getCsrfToken = async () => {
     const csrfResponse = await axios.get(cookieLink);
     return csrfResponse.data; // Access data property for CSRF response
 };
 
-export {mainLink, cookieLink, loginLink, passwordLink, logoutLink, getAllUsers, pieChartVolunteerData, updateVolunteer, getVolunteers, getPadrinos, updatePadrinos, getAnimales, updateAnimales, getTareas, updateTareas, getFormacion,animalsLink, getCsrfToken}
+export {mainLink, cookieLink, loginLink, passwordLink, logoutLink, getAllUsers, pieChartVolunteerData, updateVolunteer, getVolunteers, getPadrinos, updatePadrinos, getAnimales, updateAnimales, getTareas, updateTareas, getFormacion, animalsLink, volunteerTasks, alimentacionesLink, cuidadosLink, necesidadesLink, getCsrfToken}
