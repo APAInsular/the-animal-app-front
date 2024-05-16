@@ -34,8 +34,16 @@ function App() {
 					autoClose: 900,
 					theme: "colored",
 				});
+				localStorage.removeItem("token");
+				localStorage.removeItem("user");
+				localStorage.removeItem("voluntario");
+				console.log(response.data);
 				localStorage.setItem("token", JSON.stringify(response.data.data.token));
 				localStorage.setItem("user", JSON.stringify(response.data.data.user));
+				localStorage.setItem(
+					"voluntario",
+					JSON.stringify(response.data.data.volunteer)
+				);
 				setTimeout(() => {
 					if (response.data.data.user.rol_id == 1) {
 						window.location.href = "/mainadmin";
