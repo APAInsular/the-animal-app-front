@@ -41,7 +41,6 @@ function VistaVoluntarios() {
 			})
 			.then(function (response1) {
 				setVolunteer(...volunteer, response1.data);
-				console.log(response1);
 			});
 	};
 

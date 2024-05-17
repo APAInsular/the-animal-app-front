@@ -17,6 +17,29 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
         });
     };
 
+    const handleHistorialChange = (index, event) => {
+        const { name, value } = event.target;
+        const historiales_medicos = [...animalData.historiales_medicos];
+        historiales_medicos[index] = {
+            ...historiales_medicos[index],
+            [name]: value,
+        };
+        setAnimalData({
+            ...animalData,
+            historiales_medicos,
+        });
+    };
+
+    const handleAddHistorial = () => {
+        setAnimalData({
+            ...animalData,
+            historiales_medicos: [
+                ...animalData.historiales_medicos,
+                { fecha: '', descripcion: '' },
+            ],
+        });
+    };
+
     const handleEdit = async () => {
         try {
             const response = await axios.put(`${animalsLink}/${animalData.id}`, animalData, {
@@ -68,6 +91,7 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             className="p-1 rounded-lg border border-black mt-1 w-[90%] mx-auto"
                             value={animalData.nombre}
                             onChange={handleChange}
+                            placeholder="Nombre del animal"
                         />
                         <input
                             type="number"
@@ -76,6 +100,7 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             className="p-1 rounded-lg border border-black mt-1 w-[90%] mx-auto"
                             value={animalData.edad}
                             onChange={handleChange}
+                            placeholder="Edad del animal"
                         />
                         <textarea
                             name="historia"
@@ -83,6 +108,7 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             className="p-1 rounded-lg border border-black mt-1 w-[90%] mx-auto"
                             value={animalData.historia}
                             onChange={handleChange}
+                            placeholder="Historia del animal"
                         />
                         <input
                             type="date"
@@ -115,6 +141,7 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             className="p-1 rounded-lg border border-black mt-1 w-[90%] mx-auto"
                             value={animalData.raza}
                             onChange={handleChange}
+                            placeholder="Raza del animal"
                         />
                         <input
                             type="text"
@@ -123,6 +150,7 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             className="p-1 rounded-lg border border-black mt-1 w-[90%] mx-auto"
                             value={animalData.tipo}
                             onChange={handleChange}
+                            placeholder="Tipo de animal"
                         />
                         <input
                             type="text"
@@ -131,34 +159,41 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             className="p-1 rounded-lg border border-black mt-1 w-[90%] mx-auto"
                             value={animalData.microchip}
                             onChange={handleChange}
+                            placeholder="Número de microchip"
                         />
-                        <input
-                            type="checkbox"
-                            name="esterilizado"
-                            id="esterilizado"
-                            className="p-1 mt-4 mb-3 border border-black"
-                            checked={animalData.esterilizado}
-                            onChange={handleChange}
-                        />
-                        Esterilizado
-                        <input
-                            type="checkbox"
-                            name="zoocan"
-                            id="zoocan"
-                            className="p-1 mt-4 mb-3 border border-black"
-                            checked={animalData.zoocan}
-                            onChange={handleChange}
-                        />
-                        Alta Zoocan
-                        <input
-                            type="checkbox"
-                            name="cartilla"
-                            id="cartilla"
-                            className="p-1 mt-4 mb-3 border border-black"
-                            checked={animalData.cartilla}
-                            onChange={handleChange}
-                        />
-                        Tiene Cartilla
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="esterilizado"
+                                id="esterilizado"
+                                className="p-1 mt-4 mb-3 border border-black"
+                                checked={animalData.esterilizado}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="esterilizado" className="ml-2">Esterilizado</label>
+                        </div>
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="zoocan"
+                                id="zoocan"
+                                className="p-1 mt-4 mb-3 border border-black"
+                                checked={animalData.zoocan}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="zoocan" className="ml-2">Alta Zoocan</label>
+                        </div>
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="cartilla"
+                                id="cartilla"
+                                className="p-1 mt-4 mb-3 border border-black"
+                                checked={animalData.cartilla}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="cartilla" className="ml-2">Tiene Cartilla</label>
+                        </div>
                         <input
                             type="date"
                             name="desparasitacion"
@@ -167,7 +202,6 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             value={animalData.desparasitacion}
                             onChange={handleChange}
                         />
-                        Desparasitacion
                         <input
                             type="date"
                             name="fecha_fallecimiento"
@@ -176,7 +210,6 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             value={animalData.fecha_fallecimiento}
                             onChange={handleChange}
                         />
-                        Fecha de Fallecimiento
                         <textarea
                             name="historial_clinico"
                             id="historial_clinico"
@@ -184,23 +217,46 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                             value={animalData.historial_clinico}
                             onChange={handleChange}
                         />
-                        Historial Clínico
                         <textarea
                             name="superpoder"
                             id="superpoder"
                             className="p-1 rounded-lg border border-black mt-1 w-[90%] mx-auto"
                             value={animalData.superpoder}
                             onChange={handleChange}
+                            placeholder="Superpoder del animal"
                         />
-                        Superpoder
                         <textarea
                             name="descripcion"
                             id="descripcion"
                             className="p-1 rounded-lg border border-black mt-1 w-[90%] mx-auto"
                             value={animalData.descripcion}
                             onChange={handleChange}
+                            placeholder="Descripción del animal"
                         />
-                        Descripción
+                        {animalData.historiales_medicos.map((historial, index) => (
+                            <div key={index} className="col-span-2 mt-2">
+                                <h4 className="font-bold">Historial Médico {index + 1}</h4>
+                                <input
+                                    type="date"
+                                    name="fecha"
+                                    id={`historial_fecha_${index}`}
+                                    className="p-1 rounded-lg border border-black mt-1 w-[45%] mx-auto"
+                                    value={historial.fecha}
+                                    onChange={(event) => handleHistorialChange(index, event)}
+                                />
+                                <textarea
+                                    name="descripcion"
+                                    id={`historial_descripcion_${index}`}
+                                    className="p-1 rounded-lg border border-black mt-1 w-[45%] mx-auto"
+                                    value={historial.descripcion}
+                                    onChange={(event) => handleHistorialChange(index, event)}
+                                    placeholder="Descripción del historial médico"
+                                />
+                            </div>
+                        ))}
+                        <button type="button" className="p-2 bg-green-500 text-white rounded-md mt-2" onClick={handleAddHistorial}>
+                            Añadir Historial Médico
+                        </button>
                         <div className="mx-auto flex flex-row justify-around">
                             <button onClick={handleEdit} className="mx-auto p-2 bg-[#26dd9a] rounded-md border border-black mt-2 hover:scale-105 transition-all">
                                 Confirmar
@@ -223,28 +279,25 @@ function AnimalDesplegable({ datos, onEdit, onDelete }) {
                         <p>Nº Microchip: {animalData.microchip}</p>
                         <p>Fecha de fallecimiento: {animalData.fecha_fallecimiento}</p>
                         <p>Desparasitacion: {animalData.desparasitacion}</p>
-                        <div className="text-center mt-4">
+                        <div className="text-center mt-4 col-span-2">
                             <h3 className="font-bold">Historial Médico</h3>
-                        </div>
-                        <div className="mt-2 grid grid-cols-2 gap-2">
-                            <p>Fecha de fallecimiento: {animalData.fecha_fallecimiento}</p>
-                            <p>Desparasitacion: {animalData.desparasitacion}</p>
-                        </div>
-                        <div className="mt-2">
-                            <h4 className="font-bold">Fecha de Vacunación</h4>
-                            {animalData.vacunas && animalData.vacunas.map((vacuna, index) => (
-                                <p key={index}>{vacuna.name}: {vacuna.fecha}</p>
+                            {animalData.historiales_medicos.map((historial, index) => (
+                                <div key={index} className="mt-2">
+                                    <h4 className="font-bold">Registro {index + 1}</h4>
+                                    <p>Fecha: {historial.fecha}</p>
+                                    <p>Descripción: {historial.descripcion}</p>
+                                </div>
                             ))}
                         </div>
-                        <div className="mt-2">
+                        <div className="mt-2 col-span-2">
                             <h4 className="font-bold">Historial Clínico</h4>
                             <p>{animalData.historial_clinico}</p>
                         </div>
-                        <div className="mt-2">
+                        <div className="mt-2 col-span-2">
                             <h4 className="font-bold">Superpoder</h4>
                             <p>{animalData.superpoder}</p>
                         </div>
-                        <div className="mt-2">
+                        <div className="mt-2 col-span-2">
                             <h4 className="font-bold">Descripción</h4>
                             <p>{animalData.descripcion}</p>
                         </div>

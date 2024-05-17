@@ -1,90 +1,107 @@
 import "../index.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { animalsLink, necesidadesLink, alimentacionesLink, cuidadosLink } from "../data/data";
 import { BiPlus } from "react-icons/bi";
 import { TbTrash } from "react-icons/tb";
-import axios from "axios";
-import { animalsLink } from '../data/data.js';
 
 function AnimalesAddForm() {
-	const [nombre, setNombre] = useState('');
-	const [estFecha, setEstFecha] = useState('');
-	const [nacFecha, setNacFecha] = useState('');
-	const [foto, setFoto] = useState(null);
-	const [llegadaFecha, setLlegadaFecha] = useState('');
-	const [raza, setRaza] = useState('');
-	const [tipo, setTipo] = useState('');
-	const [microchip, setMicrochip] = useState('');
-	const [esterilizado, setEsterilizado] = useState(0);
-	const [zoocan, setZoocan] = useState(0);
-	const [cartilla, setCartilla] = useState(0);
-	const [desparasitacion, setDesparasitacion] = useState('');
-	const [vacunas, setVacunas] = useState([]);
-	const [historial, setHistorial] = useState('');
-	const [superpoder, setSuperpoder] = useState('');
-	const [descripcion, setDescripcion] = useState('');
+	const [formData, setFormData] = useState({
+		nombre: "",
+		// edad: "",
+		historia: "",
+		especie_id: "",
+		alimentacion_id: "",
+		cuidados_id: "",
+		necesidades_id: "",
+		// tarea_id: "",
+		esterilizado: false,
+		zoocan: false,
+		cartilla: false,
+		desparasitacion: "",
+		fecha_nacimiento: "",
+		fecha_esterilizacion: "",
+		fecha_llegada: "",
+		raza: "",
+		tipo: "",
+		microchip: "",
+		superpoder: "",
+		historiales_medicos: [],
+	});
 
-	const handleNewVacuna = (e) => {
-		e.preventDefault();
-		setVacunas((prevVacunas) => [
-			...prevVacunas,
-			{ name: "", uuid: crypto.randomUUID(), fecha: new Date().toISOString().split('T')[0] },
-		]);
-	};
+	const [necesidades, setNecesidades] = useState([]);
+	const [alimentaciones, setAlimentaciones] = useState([]);
+	const [cuidados, setCuidados] = useState([]);
 
-	const handleDeleteOldVacuna = (uuid) => {
-		setVacunas((prevVacunas) => prevVacunas.filter(vacuna => vacuna.uuid !== uuid));
-	};
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const necesidadesResponse = await axios.get(necesidadesLink);
+				const alimentacionesResponse = await axios.get(alimentacionesLink);
+				const cuidadosResponse = await axios.get(cuidadosLink);
 
-	const handleVacunaChange = (uuid, field, value) => {
-		setVacunas((prevVacunas) =>
-			prevVacunas.map((vacuna) =>
-				vacuna.uuid === uuid ? { ...vacuna, [field]: value } : vacuna
-			)
-		);
-	};
+				setNecesidades(necesidadesResponse.data);
+				setAlimentaciones(alimentacionesResponse.data);
+				setCuidados(cuidadosResponse.data);
+			} catch (error) {
+				console.error("Error al cargar los datos:", error);
+			}
+		};
+		fetchData();
+	}, []);
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		const formData = new FormData();
-		formData.append('nombre', nombre);
-		formData.append('fecha_esterilizacion', estFecha);
-		formData.append('fecha_nacimiento', nacFecha);
-		formData.append('foto', foto);
-		formData.append('fecha_llegada', llegadaFecha);
-		formData.append('raza', raza);
-		formData.append('tipo', tipo);
-		formData.append('microchip', microchip);
-		formData.append('esterilizado', esterilizado ? 1 : 0);
-		formData.append('zoocan', zoocan ? 1 : 0);
-		formData.append('cartilla', cartilla ? 1 : 0);
-		formData.append('desparasitacion', desparasitacion);
-		formData.append('historia', historial);
-		formData.append('superpoder', superpoder);
-		formData.append('descripcion', descripcion);
-		vacunas.forEach((vacuna, index) => {
-			formData.append(`vacunas[${index}][name]`, vacuna.name);
-			formData.append(`vacunas[${index}][uuid]`, vacuna.uuid);
-			formData.append(`vacunas[${index}][fecha]`, vacuna.fecha);
+	const handleChange = (event) => {
+		const { name, value, type, checked } = event.target;
+		setFormData({
+			...formData,
+			[name]: type === "checkbox" ? checked : value,
 		});
+	};
 
+	const handleHistorialChange = (index, event) => {
+		const { name, value } = event.target;
+		const historiales_medicos = [...formData.historiales_medicos];
+		historiales_medicos[index] = {
+			...historiales_medicos[index],
+			[name]: value,
+		};
+		setFormData({
+			...formData,
+			historiales_medicos,
+		});
+	};
+
+	const addHistorialMedico = () => {
+		setFormData({
+			...formData,
+			historiales_medicos: [
+				...formData.historiales_medicos,
+				{ fecha: "", descripcion: "" },
+			],
+		});
+	};
+
+	const removeHistorialMedico = (index) => {
+		const historiales_medicos = formData.historiales_medicos.filter(
+			(_, i) => i !== index
+		);
+		setFormData({
+			...formData,
+			historiales_medicos,
+		});
+	};
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
 		try {
 			const response = await axios.post(animalsLink, formData, {
 				headers: {
-					'Content-Type': 'multipart/form-data',
+					"Content-Type": "application/json",
 				},
 			});
-			console.log('Animal creado exitosamente:', response.data);
+			console.log("Animal creado exitosamente:", response.data);
 		} catch (error) {
-			if (error.response) {
-				console.error('Error al crear el animal:', error.response.data);
-				console.error('Estado:', error.response.status);
-				console.error('Headers:', error.response.headers);
-			} else if (error.request) {
-				console.error('Error en la solicitud:', error.request);
-			} else {
-				console.error('Error desconocido:', error.message);
-			}
-			console.error('Configuración de la solicitud:', error.config);
+			console.error("Error al crear el animal:", error.response.data);
 		}
 	};
 
@@ -92,43 +109,42 @@ function AnimalesAddForm() {
 		<form onSubmit={handleSubmit} className="flex flex-col">
 			<div className="flex flex-row justify-center">
 				<div className="flex flex-col mx-1">
-					<label htmlFor="name" className="font-bold">
+					<label htmlFor="nombre" className="font-bold">
 						Nombre
 					</label>
 					<input
 						type="text"
-						name="name"
-						id="name"
+						name="nombre"
+						id="nombre"
+						value={formData.nombre}
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						value={nombre}
-						onChange={(e) => setNombre(e.target.value)}
-						required
 					/>
 				</div>
 				<div className="flex flex-col mx-1">
-					<label htmlFor="est-fecha" className="font-bold">
-						Fecha Esterilizacion
+					<label htmlFor="fecha_esterilizacion" className="font-bold">
+						Fecha Esterilización
 					</label>
 					<input
 						type="date"
-						name="est-fecha"
-						id="est-fecha"
+						name="fecha_esterilizacion"
+						id="fecha_esterilizacion"
+						value={formData.fecha_esterilizacion}
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						value={estFecha}
-						onChange={(e) => setEstFecha(e.target.value)}
 					/>
 				</div>
 				<div className="flex flex-col mx-1">
-					<label htmlFor="nac-fecha" className="font-bold">
+					<label htmlFor="fecha_nacimiento" className="font-bold">
 						Fecha Nacimiento
 					</label>
 					<input
 						type="date"
-						name="nac-fecha"
-						id="nac-fecha"
+						name="fecha_nacimiento"
+						id="fecha_nacimiento"
+						value={formData.fecha_nacimiento}
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						value={nacFecha}
-						onChange={(e) => setNacFecha(e.target.value)}
 					/>
 				</div>
 			</div>
@@ -141,21 +157,21 @@ function AnimalesAddForm() {
 						type="file"
 						name="foto"
 						id="foto"
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						onChange={(e) => setFoto(e.target.files[0])}
 					/>
 				</div>
 				<div className="flex flex-col mx-1">
-					<label htmlFor="llegada-fecha" className="font-bold">
-						Fecha llegada
+					<label htmlFor="fecha_llegada" className="font-bold">
+						Fecha Llegada
 					</label>
 					<input
 						type="date"
-						name="llegada-fecha"
-						id="llegada-fecha"
+						name="fecha_llegada"
+						id="fecha_llegada"
+						value={formData.fecha_llegada}
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						value={llegadaFecha}
-						onChange={(e) => setLlegadaFecha(e.target.value)}
 					/>
 				</div>
 				<div className="flex flex-col mx-1">
@@ -166,9 +182,9 @@ function AnimalesAddForm() {
 						type="text"
 						name="raza"
 						id="raza"
+						value={formData.raza}
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						value={raza}
-						onChange={(e) => setRaza(e.target.value)}
 					/>
 				</div>
 			</div>
@@ -181,9 +197,9 @@ function AnimalesAddForm() {
 						type="text"
 						name="tipo"
 						id="tipo"
+						value={formData.tipo}
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						value={tipo}
-						onChange={(e) => setTipo(e.target.value)}
 					/>
 				</div>
 				<div className="flex flex-col mx-1">
@@ -194,9 +210,9 @@ function AnimalesAddForm() {
 						type="text"
 						name="microchip"
 						id="microchip"
+						value={formData.microchip}
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						value={microchip}
-						onChange={(e) => setMicrochip(e.target.value)}
 					/>
 				</div>
 				<div className="flex flex-col mx-1 justify-center">
@@ -207,9 +223,9 @@ function AnimalesAddForm() {
 						type="checkbox"
 						name="esterilizado"
 						id="esterilizado"
+						checked={formData.esterilizado}
+						onChange={handleChange}
 						className="p-1 mt-4 mb-3 border border-black"
-						checked={esterilizado}
-						onChange={(e) => setEsterilizado(e.target.checked)}
 					/>
 				</div>
 			</div>
@@ -222,9 +238,9 @@ function AnimalesAddForm() {
 						type="checkbox"
 						name="zoocan"
 						id="zoocan"
+						checked={formData.zoocan}
+						onChange={handleChange}
 						className="p-1 mt-4 mb-3 border border-black"
-						checked={zoocan}
-						onChange={(e) => setZoocan(e.target.checked)}
 					/>
 				</div>
 				<div className="flex flex-col mx-1">
@@ -235,12 +251,12 @@ function AnimalesAddForm() {
 						type="checkbox"
 						name="cartilla"
 						id="cartilla"
+						checked={formData.cartilla}
+						onChange={handleChange}
 						className="p-1 mt-4 mb-3 border border-black"
-						checked={cartilla}
-						onChange={(e) => setCartilla(e.target.checked)}
 					/>
 				</div>
-				<div className="flex flex-col mx-1 justify-center">
+				<div className="flex flex-col mx-1">
 					<label htmlFor="desparasitacion" className="font-bold">
 						Desparasitacion
 					</label>
@@ -248,65 +264,116 @@ function AnimalesAddForm() {
 						type="date"
 						name="desparasitacion"
 						id="desparasitacion"
+						value={formData.desparasitacion}
+						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-						value={desparasitacion}
-						onChange={(e) => setDesparasitacion(e.target.value)}
 					/>
+				</div>
+			</div>
+			<div className="flex flex-row justify-center">
+				<div className="flex flex-col mx-1">
+					<label htmlFor="alimentacion_id" className="font-bold">
+						Alimentación
+					</label>
+					<select
+						name="alimentacion_id"
+						id="alimentacion_id"
+						value={formData.alimentacion_id}
+						onChange={handleChange}
+						className="p-1 rounded-lg shadow-md border border-black"
+					>
+						<option value="">Seleccione una opción</option>
+						{alimentaciones.map((alimentacion) => (
+							<option key={alimentacion.id} value={alimentacion.id}>
+								{alimentacion.tipo}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className="flex flex-col mx-1">
+					<label htmlFor="cuidados_id" className="font-bold">
+						Cuidados
+					</label>
+					<select
+						name="cuidados_id"
+						id="cuidados_id"
+						value={formData.cuidados_id}
+						onChange={handleChange}
+						className="p-1 rounded-lg shadow-md border border-black"
+					>
+						<option value="">Seleccione una opción</option>
+						{cuidados.map((cuidado) => (
+							<option key={cuidado.id} value={cuidado.id}>
+								{cuidado.nombre}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className="flex flex-col mx-1">
+					<label htmlFor="necesidades_id" className="font-bold">
+						Necesidades
+					</label>
+					<select
+						name="necesidades_id"
+						id="necesidades_id"
+						value={formData.necesidades_id}
+						onChange={handleChange}
+						className="p-1 rounded-lg shadow-md border border-black"
+					>
+						<option value="">Seleccione una opción</option>
+						{necesidades.map((necesidad) => (
+							<option key={necesidad.id} value={necesidad.id}>
+								{necesidad.nombre}
+							</option>
+						))}
+					</select>
 				</div>
 			</div>
 			<div className="flex flex-col justify-center">
 				<div className="flex flex-row justify-center">
-					<h2 className="font-bold text-lg">Fecha de Vacunacion</h2>
+					<h2 className="font-bold text-lg">Historial Médico</h2>
 					<button
+						type="button"
 						className="p-2 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
-						onClick={handleNewVacuna}
+						onClick={addHistorialMedico}
 					>
 						<BiPlus />
 					</button>
 				</div>
-				<div className="flex justify-center">
-					{vacunas.map((vacuna) => (
-						<div key={vacuna.uuid} className="flex flex-col mx-1">
-							<div className="flex flex-row">
-								<input
-									type="text"
-									name={`vacuna-name-${vacuna.uuid}`}
-									id={`vacuna-name-${vacuna.uuid}`}
-									value={vacuna.name}
-									onChange={(e) => handleVacunaChange(vacuna.uuid, 'name', e.target.value)}
-									className="p-1 rounded-lg shadow-md border border-black"
-								/>
-								<button
-									type="button"
-									className="border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
-									onClick={() => handleDeleteOldVacuna(vacuna.uuid)}
-								>
-									<TbTrash />
-								</button>
-							</div>
+				{formData.historiales_medicos.map((historial, index) => (
+					<div key={index} className="flex flex-col my-2">
+						<div className="flex flex-row items-center">
+							<label htmlFor={`historial_fecha_${index}`} className="font-bold mr-2">
+								Fecha
+							</label>
 							<input
 								type="date"
-								name={`vacuna-fecha-${vacuna.uuid}`}
-								id={`vacuna-fecha-${vacuna.uuid}`}
-								value={vacuna.fecha}
-								onChange={(e) => handleVacunaChange(vacuna.uuid, 'fecha', e.target.value)}
-								className="p-1 rounded-lg shadow-md border border-black mt-1"
+								name="fecha"
+								id={`historial_fecha_${index}`}
+								value={historial.fecha}
+								onChange={(event) => handleHistorialChange(index, event)}
+								className="p-1 rounded-lg shadow-md border border-black"
 							/>
+							<button
+								type="button"
+								className="p-1 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
+								onClick={() => removeHistorialMedico(index)}
+							>
+								<TbTrash />
+							</button>
 						</div>
-					))}
-				</div>
-			</div>
-			<div className="flex flex-col mt-2">
-				<h2 className="mx-auto text-lg font-bold">Historia</h2>
-				<textarea
-					name="historial"
-					id="historial"
-					cols="20"
-					rows="10"
-					className="border border-black rounded-md shadow-md mx-auto w-4/12 p-1 bg-white h-24 mt-1 resize-none"
-					value={historial}
-					onChange={(e) => setHistorial(e.target.value)}
-				></textarea>
+						<label htmlFor={`historial_descripcion_${index}`} className="font-bold mt-2">
+							Descripción
+						</label>
+						<textarea
+							name="descripcion"
+							id={`historial_descripcion_${index}`}
+							value={historial.descripcion}
+							onChange={(event) => handleHistorialChange(index, event)}
+							className="p-1 rounded-lg shadow-md border border-black mt-1"
+						/>
+					</div>
+				))}
 			</div>
 			<div className="flex flex-col mt-2">
 				<h2 className="mx-auto text-lg font-bold">SuperPoder</h2>
@@ -316,8 +383,8 @@ function AnimalesAddForm() {
 					cols="20"
 					rows="10"
 					className="border border-black rounded-md shadow-md mx-auto w-4/12 p-1 bg-white h-24 mt-1 resize-none"
-					value={superpoder}
-					onChange={(e) => setSuperpoder(e.target.value)}
+					value={formData.superpoder}
+					onChange={handleChange}
 				></textarea>
 			</div>
 			<div className="flex flex-col mt-2">
@@ -328,16 +395,17 @@ function AnimalesAddForm() {
 					cols="20"
 					rows="10"
 					className="border border-black rounded-md shadow-md mx-auto w-4/12 p-1 bg-white h-24 mt-1 resize-none"
-					value={descripcion}
-					onChange={(e) => setDescripcion(e.target.value)}
+					value={formData.descripcion}
+					onChange={handleChange}
 				></textarea>
 			</div>
-			<button
-				type="submit"
-				className="p-2 border border-black rounded-lg shadow-md bg-blue-500 text-white mt-4 mx-auto hover:bg-blue-600"
-			>
-				Crear Animal
-			</button>
+			<div className="flex flex-col mt-2">
+				<input
+					type="submit"
+					value="Crear Animal"
+					className="rounded-xl p-2 bg-[#26dd9a] border border-black w-1/2 mx-auto mt-4 font-bold"
+				/>
+			</div>
 		</form>
 	);
 }

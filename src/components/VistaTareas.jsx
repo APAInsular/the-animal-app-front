@@ -85,6 +85,7 @@ function VistaTareas() {
 							id="voluntario_id"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
 						>
+							<option value={null}>Escoge</option>
 							{volunteer.map((voluntario, index) => (
 								<option key={index} value={voluntario.id}>
 									{voluntario.nombre}
@@ -99,6 +100,7 @@ function VistaTareas() {
 							id="animal_id"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
 						>
+							<option value={null}>Escoge</option>
 							{animal.map((animals, index) => (
 								<option key={index} value={animals.id}>
 									{animals.nombre}
@@ -154,19 +156,19 @@ function VistaTareas() {
 								</label>
 								<input
 									type="text"
-									name="name"
-									id="name"
-									className="border border-black rounded-md shadow-md p-1 bg-white mt-1"
+									name="nombre"
+									id="nombre"
+									className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
 								/>
 								<label className="font-bold text-xl mt-2" htmlFor="description">
 									Descripcion
 								</label>
 								<textarea
-									name="description"
+									name="descripcion"
 									id="description"
 									cols="20"
 									rows="10"
-									className="border border-black rounded-md shadow-md p-1 bg-white h-24 mt-1 resize-none"
+									className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] h-24 mt-1 resize-none"
 								></textarea>
 								<div className="mt-2">
 									<label className="font-bold text-xl" htmlFor="repit">
@@ -174,8 +176,8 @@ function VistaTareas() {
 									</label>
 									<input
 										type="checkbox"
-										name="repit"
-										id="repit"
+										name="SeRepite"
+										id="SeRepite"
 										className="ms-4"
 									/>
 								</div>
@@ -184,19 +186,40 @@ function VistaTareas() {
 								</label>
 								<input
 									type="date"
-									name="date"
-									id="date"
-									className="border border-black rounded-md shadow-md p-1 bg-white mt-1"
+									name="fecha"
+									id="fecha"
+									className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
 								/>
 								<label className="font-bold text-xl mt-2" htmlFor="volunteer">
 									Voluntario
 								</label>
 								<select
-									name="volunteer"
-									id="volunteer"
-									className="border border-black rounded-md shadow-md p-1 bg-white mt-1"
-									multiple
-								></select>
+									name="voluntario_id"
+									id="voluntario_id"
+									className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
+								>
+									<option value={null}>Escoge</option>
+									{volunteer.map((voluntario, index) => (
+										<option key={index} value={voluntario.id}>
+											{voluntario.nombre}
+										</option>
+									))}
+								</select>
+								<label className="font-bold text-xl mt-2" htmlFor="animal">
+									Animal
+								</label>
+								<select
+									name="animal_id"
+									id="animal_id"
+									className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
+								>
+									<option value={null}>Escoge</option>
+									{animal.map((animals, index) => (
+										<option key={index} value={animals.id}>
+											{animals.nombre}
+										</option>
+									))}
+								</select>
 								<input
 									type="submit"
 									value="Confirmar"
