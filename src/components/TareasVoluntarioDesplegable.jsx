@@ -21,8 +21,8 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 						nombre: datos.nombre,
 						descripcion: datos.descripcion,
 						seRepite: datos.seRepite,
-						comentario: datos.comentario
-						finalizada: true,
+						comentario: datos.comentario,
+						finalizada: true
 					},
 					{
 						headers: {
