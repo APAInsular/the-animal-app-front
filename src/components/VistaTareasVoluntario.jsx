@@ -1,18 +1,11 @@
 import "../index.css";
 import { useEffect } from "react";
 import { useState } from "react";
-import { FaAngleDown } from "react-icons/fa";
 import TareasVoluntarioDesplegable from "./TareasVoluntarioDesplegable";
 import axios from "axios";
 import { cookieLink, volunteerTasks } from "../data/data";
 
 function VistaTareasVoluntario() {
-	const [secciones, setSecciones] = useState({
-		pendientes: false,
-		atrasadas: false,
-		completadas: false,
-	});
-
 	const fechaActual = new Date();
 
 	const [tareas, setTareas] = useState([]);
@@ -22,10 +15,6 @@ function VistaTareasVoluntario() {
 	const [tareasFinalizadas, setTareasFinalizadas] = useState([]);
 
 	const [tareasAtrasadas, setTareasAtrasadas] = useState([]);
-
-	const toggleSeccion = (seccion) => {
-		setSecciones({ ...secciones, [seccion]: !secciones[seccion] });
-	};
 
 	useEffect(() => {
 		const userToken = JSON.parse(localStorage.getItem("token"));
