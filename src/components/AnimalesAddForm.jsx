@@ -1,20 +1,18 @@
 import "../index.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { animalsLink, necesidadesLink, alimentacionesLink, cuidadosLink } from "../data/data";
+import { animalsLink } from "../data/data";
 import { BiPlus } from "react-icons/bi";
 import { TbTrash } from "react-icons/tb";
 
 function AnimalesAddForm() {
 	const [formData, setFormData] = useState({
 		nombre: "",
-		// edad: "",
 		historia: "",
-		especie_id: "",
-		alimentacion_id: "",
-		cuidados_id: "",
-		necesidades_id: "",
-		// tarea_id: "",
+		especie: "",
+		alimentacion: "",
+		cuidados: "",
+		necesidades: "",
 		esterilizado: false,
 		zoocan: false,
 		cartilla: false,
@@ -22,33 +20,14 @@ function AnimalesAddForm() {
 		fecha_nacimiento: "",
 		fecha_esterilizacion: "",
 		fecha_llegada: "",
+		fecha_fallecimiento: "",
 		raza: "",
 		tipo: "",
 		microchip: "",
 		superpoder: "",
 		historiales_medicos: [],
+		vacunaciones: [],
 	});
-
-	const [necesidades, setNecesidades] = useState([]);
-	const [alimentaciones, setAlimentaciones] = useState([]);
-	const [cuidados, setCuidados] = useState([]);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const necesidadesResponse = await axios.get(necesidadesLink);
-				const alimentacionesResponse = await axios.get(alimentacionesLink);
-				const cuidadosResponse = await axios.get(cuidadosLink);
-
-				setNecesidades(necesidadesResponse.data);
-				setAlimentaciones(alimentacionesResponse.data);
-				setCuidados(cuidadosResponse.data);
-			} catch (error) {
-				console.error("Error al cargar los datos:", error);
-			}
-		};
-		fetchData();
-	}, []);
 
 	const handleChange = (event) => {
 		const { name, value, type, checked } = event.target;
@@ -71,12 +50,35 @@ function AnimalesAddForm() {
 		});
 	};
 
+	const handleVacunacionChange = (index, event) => {
+		const { name, value } = event.target;
+		const vacunaciones = [...formData.vacunaciones];
+		vacunaciones[index] = {
+			...vacunaciones[index],
+			[name]: value,
+		};
+		setFormData({
+			...formData,
+			vacunaciones,
+		});
+	};
+
 	const addHistorialMedico = () => {
 		setFormData({
 			...formData,
 			historiales_medicos: [
 				...formData.historiales_medicos,
 				{ fecha: "", descripcion: "" },
+			],
+		});
+	};
+
+	const addVacunacion = () => {
+		setFormData({
+			...formData,
+			vacunaciones: [
+				...formData.vacunaciones,
+				{ nombre: "", fecha: "" },
 			],
 		});
 	};
@@ -88,6 +90,16 @@ function AnimalesAddForm() {
 		setFormData({
 			...formData,
 			historiales_medicos,
+		});
+	};
+
+	const removeVacunacion = (index) => {
+		const vacunaciones = formData.vacunaciones.filter(
+			(_, i) => i !== index
+		);
+		setFormData({
+			...formData,
+			vacunaciones,
 		});
 	};
 
@@ -170,6 +182,19 @@ function AnimalesAddForm() {
 						name="fecha_llegada"
 						id="fecha_llegada"
 						value={formData.fecha_llegada}
+						onChange={handleChange}
+						className="p-1 rounded-lg shadow-md border border-black"
+					/>
+				</div>
+				<div className="flex flex-col mx-1">
+					<label htmlFor="fecha_fallecimiento" className="font-bold">
+						Fecha Fallecimiento
+					</label>
+					<input
+						type="date"
+						name="fecha_fallecimiento"
+						id="fecha_fallecimiento"
+						value={formData.fecha_fallecimiento}
 						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
 					/>
@@ -272,61 +297,43 @@ function AnimalesAddForm() {
 			</div>
 			<div className="flex flex-row justify-center">
 				<div className="flex flex-col mx-1">
-					<label htmlFor="alimentacion_id" className="font-bold">
+					<label htmlFor="alimentacion" className="font-bold">
 						Alimentación
 					</label>
-					<select
-						name="alimentacion_id"
-						id="alimentacion_id"
-						value={formData.alimentacion_id}
+					<input
+						type="text"
+						name="alimentacion"
+						id="alimentacion"
+						value={formData.alimentacion}
 						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-					>
-						<option value="">Seleccione una opción</option>
-						{alimentaciones.map((alimentacion) => (
-							<option key={alimentacion.id} value={alimentacion.id}>
-								{alimentacion.tipo}
-							</option>
-						))}
-					</select>
+					/>
 				</div>
 				<div className="flex flex-col mx-1">
-					<label htmlFor="cuidados_id" className="font-bold">
+					<label htmlFor="cuidados" className="font-bold">
 						Cuidados
 					</label>
-					<select
-						name="cuidados_id"
-						id="cuidados_id"
-						value={formData.cuidados_id}
+					<input
+						type="text"
+						name="cuidados"
+						id="cuidados"
+						value={formData.cuidados}
 						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-					>
-						<option value="">Seleccione una opción</option>
-						{cuidados.map((cuidado) => (
-							<option key={cuidado.id} value={cuidado.id}>
-								{cuidado.nombre}
-							</option>
-						))}
-					</select>
+					/>
 				</div>
 				<div className="flex flex-col mx-1">
-					<label htmlFor="necesidades_id" className="font-bold">
+					<label htmlFor="necesidades" className="font-bold">
 						Necesidades
 					</label>
-					<select
-						name="necesidades_id"
-						id="necesidades_id"
-						value={formData.necesidades_id}
+					<input
+						type="text"
+						name="necesidades"
+						id="necesidades"
+						value={formData.necesidades}
 						onChange={handleChange}
 						className="p-1 rounded-lg shadow-md border border-black"
-					>
-						<option value="">Seleccione una opción</option>
-						{necesidades.map((necesidad) => (
-							<option key={necesidad.id} value={necesidad.id}>
-								{necesidad.nombre}
-							</option>
-						))}
-					</select>
+					/>
 				</div>
 			</div>
 			<div className="flex flex-col justify-center">
@@ -372,6 +379,53 @@ function AnimalesAddForm() {
 							onChange={(event) => handleHistorialChange(index, event)}
 							className="p-1 rounded-lg shadow-md border border-black mt-1"
 						/>
+					</div>
+				))}
+			</div>
+			<div className="flex flex-col justify-center">
+				<div className="flex flex-row justify-center">
+					<h2 className="font-bold text-lg">Vacunaciones</h2>
+					<button
+						type="button"
+						className="p-2 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
+						onClick={addVacunacion}
+					>
+						<BiPlus />
+					</button>
+				</div>
+				{formData.vacunaciones.map((vacunacion, index) => (
+					<div key={index} className="flex flex-col my-2">
+						<div className="flex flex-row items-center">
+							<label htmlFor={`vacunacion_nombre_${index}`} className="font-bold mr-2">
+								Nombre
+							</label>
+							<input
+								type="text"
+								name="nombre"
+								id={`vacunacion_nombre_${index}`}
+								value={vacunacion.nombre}
+								onChange={(event) => handleVacunacionChange(index, event)}
+								className="p-1 rounded-lg shadow-md border border-black"
+							/>
+							<label htmlFor={`vacunacion_fecha_${index}`} className="font-bold mr-2 ml-2">
+								Fecha
+							</label>
+							<input
+								type="date"
+								name="fecha"
+								id={`vacunacion_fecha_${index}`}
+								value={vacunacion.fecha}
+								onChange={(event) => handleVacunacionChange(index, event)}
+								className="p-1 rounded-lg shadow-md border border-black"
+							/>
+							<button
+								type="button"
+								className="p-1 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
+								onClick={() => removeVacunacion(index)}
+							>
+								<TbTrash />
+							</button>
+						</div>
 					</div>
 				))}
 			</div>

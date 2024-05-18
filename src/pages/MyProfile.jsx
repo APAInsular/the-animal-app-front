@@ -1,85 +1,102 @@
 import { useState, useEffect } from "react";
-import "../index.css";
+import { FiTrash, FiCheck, FiEdit } from "react-icons/fi";
 import Navbar from "../components/Navbar";
 
 function MyProfile() {
-	const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [tempUserData, setTempUserData] = useState({});
 	const [userData, setUserData] = useState({});
+	
+	// Cargar los datos del usuario al montar el componente
+	useEffect(() => {
+		const data = JSON.parse(localStorage.getItem("user"));
+		setUserData(data);
+		setTempUserData(data); // Inicializar tempUserData con los datos del usuario
+	}, []);
 
-	const handleRequestDeletion = () => {};
+    const handleEditToggle = () => {
+        setIsEditing(!isEditing);
+    };
 
-	const handleChange = (event) => {
-		const { name, value } = event.target;
-		setUserData({
-			...userData,
-			[name]: value,
-		});
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setTempUserData({
+            ...tempUserData,
+            [name]: value,
+        });
+    };
+
+    const handleRequestDeletion = () => {
+        // Implementar la lógica para solicitar la eliminación de la cuenta
+    };
+
+	const handleSaveChanges = async () => {
+		// Actualizar los datos en la base de datos
+		try {
+			await updateUserData(tempUserData); // Envía los datos actualizados al servidor
+			setUserData(tempUserData); // Actualiza el estado local con los datos modificados
+			localStorage.setItem("user", JSON.stringify(tempUserData)); // Actualiza los datos en el localStorage
+			setIsEditing(false); // Cambia el estado de edición a false
+		} catch (error) {
+			console.error("Error al actualizar los datos:", error);
+			// Aquí puedes manejar el error de manera apropiada, por ejemplo, mostrando un mensaje de error al usuario
+		}
 	};
-
-	useEffect(() => {}, []);
+	
 
 	return (
 		<div className="min-h-screen bg-gray-100">
 			<Navbar />
-			{/* Encabezado de la página */}
-			<div className="text-center text-2xl font-bold mt-8 mb-4">Mi Perfil</div>
-			{/* Contenedor de los datos del usuario */}
-			<div className="max-w-md mx-auto border p-4 bg-white rounded-lg shadow-lg">
-				{/* Título y datos del nombre */}
+			<div className="max-w-md mx-auto p-6 mt-8 bg-white rounded-lg shadow-lg">
+				<div className="text-center text-2xl font-bold mb-4">Perfil de {userData.name}</div>
 				<div className="mb-4">
-					<div className="font-semibold">Nombre:</div>
-					<div>NombreUsuario</div>
+					<div className="font-semibold mb-1">Nombre:</div>
+					<div className="flex items-center">
+						<input
+							type="text"
+							name="name"
+							value={isEditing ? tempUserData.name : userData.name}
+							onChange={handleInputChange}
+							className={`input-field ${isEditing ? "border-b border-gray-400" : "border-none"}`}
+							disabled={!isEditing}
+						/>
+						{isEditing ? (
+							<FiCheck className="ml-2 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors" onClick={handleSaveChanges} />
+						) : <FiEdit className="ml-2 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors" onClick={handleEditToggle} />}
+					</div>
 				</div>
-			</div>
-			<div className={`${isEditing ? "hidden" : "block"}`}>
-				<p className="font-bold text-center mt-3 text-2xl">{userData.name}</p>
-				<p className="font-bold text-center mt-3 text-xl">{userData.email}</p>
-				<p className="font-bold text-center mt-3 text-2xl">+34 666606666</p>
-			</div>
-			<div className={`${isEditing ? "block" : "hidden"}`}>
-				<form action="" className="flex flex-col justify-center">
-					<input
-						type="text"
-						name="name"
-						id="name"
-						value={userData.name}
-						className="font-bold text-center mt-3 text-2xl bg-[#d9d9d9] border border-black shadow-md rounded-md w-[80%] lg:w-[30%] mx-auto"
-					/>
-					<input
-						type="email"
-						name="email"
-						id="mail"
-						onChange={handleChange}
-						value={userData.email}
-						className="font-bold text-center mt-3 text-xl bg-[#d9d9d9] border border-black shadow-md rounded-md w-[80%] lg:w-[30%] mx-auto"
-					/>
-					<input
-						type="text"
-						name="tlf"
-						id="tlf"
-						onChange={handleChange}
-						value={"+34 666606666"}
-						className="font-bold text-center mt-3 text-2xl bg-[#d9d9d9] border border-black shadow-md rounded-md w-[80%] lg:w-[30%] mx-auto"
-					/>
-					<input
-						type="submit"
-						value="Guardar cambios"
-						className="p-2 bg-[#26dd9a] font-bold w-40 border border-black rounded-lg mx-auto mt-4 cursor-pointer hover:scale-105 transition-all"
-					/>
-					<button className="p-2 text-white bg-red-600 font-bold w-40 border border-black rounded-lg mx-auto mt-4 cursor-pointer hover:scale-105 transition-all">
-						Pedir eliminar mi cuenta
+				<div className="mb-4">
+					<div className="font-semibold mb-1">Correo electrónico:</div>
+					<div className="flex items-center">
+						<input
+							type="email"
+							name="email"
+							value={isEditing ? tempUserData.email : userData.email}
+							onChange={handleInputChange}
+							className={`input-field ${isEditing ? "border-b border-gray-400" : "border-none"}`}
+							disabled={!isEditing}
+						/>
+						{isEditing ? (
+							<FiCheck className="ml-2 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors" onClick={handleSaveChanges} />
+						) : <FiEdit className="ml-2 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors" onClick={handleEditToggle} />}
+					</div>
+				</div>
+				<div className="flex justify-between items-center mb-4">
+					{isEditing ? (
+						<button className="btn btn-confirm" onClick={handleSaveChanges}>
+							<FiCheck className="mr-2" />
+							Guardar Cambios
+						</button>
+					) : null}
+					<button className="btn btn-delete" onClick={handleRequestDeletion}>
+						<FiTrash className="mr-2" />
+						Solicitar Borrado de Cuenta
 					</button>
-				</form>
-				{/* Botón para solicitar borrado de cuenta */}
-				<button
-					className="bg-red-500 text-white px-4 py-2 mr-2 my-2 rounded-lg w-full"
-					onClick={handleRequestDeletion}
-				>
-					Solicitar Borrado de Cuenta
-				</button>
+				</div>
 			</div>
 		</div>
 	);
+	
 }
 
 export default MyProfile;

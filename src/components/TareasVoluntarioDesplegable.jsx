@@ -22,11 +22,22 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 			console.log(completedData);
 			console.log("un paso para terminar");
 			axios
+<<<<<<< HEAD
 				.put(updateTareas + tareasData.id, completedData, {
 					headers: {
 						"X-CSRF-TOKEN": response.data.token,
 						Authorization: `Bearer ${userToken}`,
 						"Content-Type": "application/json",
+=======
+				.put(
+					updateTareas + datos.id,
+					{
+						nombre: datos.nombre,
+						descripcion: datos.descripcion,
+						seRepite: datos.seRepite,
+						comentario: datos.comentario,
+						finalizada: true
+>>>>>>> 865a7c9b798a8972bd3ae093351fbe4288917220
 					},
 				})
 				.then(function (response1) {
