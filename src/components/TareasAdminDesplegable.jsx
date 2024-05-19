@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import axios from "axios";
 import { cookieLink, updateTareas } from "../data/data";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { useState } from "react";
 
 function TareasAdminDesplegable({ datos, voluntarios, animales }) {
 	const [desplegado, setDesplegado] = useState(false);
