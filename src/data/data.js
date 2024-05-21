@@ -14,6 +14,9 @@ const getAnimales = mainLink + "/api/animal";
 const updateAnimales = mainLink + "/api/animal/"
 const getTareas = mainLink + "/api/tareas";
 const updateTareas = mainLink + "/api/tareas/"
+const createUser = mainLink + "/api/createUser";
+const updateUser = mainLink + "/api/user/";
+const getEspecies = mainLink + "/api/especies";
 const getFormacion = mainLink + "/api/formacion"
 const pieChartVolunteerData = mainLink + "/api/datos-voluntarios" ;
 const animalsLink = mainLink + "/api/animal/"
@@ -27,4 +30,4 @@ const getCsrfToken = async () => {
     return csrfResponse.data; // Access data property for CSRF response
 };
 
-export {mainLink, cookieLink, loginLink, passwordLink, logoutLink, getAllUsers, pieChartVolunteerData, updateVolunteer, getVolunteers, getPadrinos, updatePadrinos, getAnimales, updateAnimales, getTareas, updateTareas, getFormacion, animalsLink, volunteerTasks, alimentacionesLink, cuidadosLink, necesidadesLink, getCsrfToken}
+export {mainLink, cookieLink, loginLink, passwordLink, logoutLink, getAllUsers, pieChartVolunteerData, updateVolunteer, getVolunteers, getPadrinos, updatePadrinos, getAnimales, updateAnimales, getTareas, updateTareas, createUser, getEspecies, getFormacion, animalsLink, volunteerTasks, alimentacionesLink, updateUser, cuidadosLink, necesidadesLink, getCsrfToken}

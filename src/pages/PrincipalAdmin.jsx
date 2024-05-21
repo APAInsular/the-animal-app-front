@@ -61,7 +61,7 @@ function PrincipalAdmin() {
 					</h2>
 				</a>
 				<a
-					href="/reports"
+					href="/general"
 					className="group/reports overflow-hidden flex justify-center flex-col bg-[#d9d9d9] sm:max-h-96 p-2 border-2 border-black shadow-md lg:mt-0 rounded-lg m-1"
 				>
 					<FaDatabase
@@ -69,7 +69,7 @@ function PrincipalAdmin() {
 						size={sizeValue}
 					/>
 					<h2 className="text-center mt-10 text-4xl font-bold group-hover/reports:scale-105 transition-all">
-						Informes
+						General
 					</h2>
 				</a>
 				<a

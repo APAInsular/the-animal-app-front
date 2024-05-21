@@ -20,8 +20,9 @@ import Animales from "./pages/Animales.jsx";
 import Tareas from "./pages/Tareas.jsx";
 import TareasVoluntario from "./pages/TareasVoluntario.jsx";
 import Padrinos from "./pages/Padrinos.jsx";
-import Data from "./pages/Datos.jsx"
-import Tienda from "./pages/Tienda.jsx"
+import Data from "./pages/Datos.jsx";
+import Tienda from "./pages/Tienda.jsx";
+import Generales from "./pages/Generales.jsx";
 // ENRUTADOR
 
 const router = createBrowserRouter([
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
 	{
 		path: "/data",
 		element: <Data />,
+	},
+	{
+		path: "/general",
+		element: <Generales />,
 	},
 	{
 		path: "/donators",

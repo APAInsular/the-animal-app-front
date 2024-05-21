@@ -41,13 +41,31 @@ function TareasAdminDesplegable({ datos, voluntarios, animales }) {
 		if (checked) {
 			setTareaData({
 				...tareaData,
-				SeRepite: true,
+				SeRepite: 1,
 			});
 			event.target.checked = false;
 		} else {
 			setTareaData({
 				...tareaData,
-				SeRepite: false,
+				SeRepite: 0,
+			});
+			event.target.checked = true;
+		}
+		console.log(tareaData);
+	};
+
+	const handleCheckbox2 = (event) => {
+		const checked = event.target;
+		if (checked) {
+			setTareaData({
+				...tareaData,
+				finalizada: 1,
+			});
+			event.target.checked = false;
+		} else {
+			setTareaData({
+				...tareaData,
+				finalizada: 0,
 			});
 			event.target.checked = true;
 		}
@@ -120,7 +138,11 @@ function TareasAdminDesplegable({ datos, voluntarios, animales }) {
 						name="SeRepite"
 						id="SeRepite"
 						className="ms-2"
-						checked={tareaData.SeRepite == "[Si" ? true : false}
+						checked={
+							tareaData.SeRepite == 1 || tareaData.SeRepite == true
+								? true
+								: false
+						}
 						onChange={handleCheckbox}
 					/>
 				</div>
@@ -135,6 +157,45 @@ function TareasAdminDesplegable({ datos, voluntarios, animales }) {
 					value={handleDates(tareaData.fecha)}
 					onChange={(e) => handleChange(e)}
 				/>
+				<label htmlFor="comentario" className="font-bold text-xl text-center">
+					Comentario
+				</label>
+				<input
+					type="text"
+					name="comentario"
+					id="comentario"
+					className="border border-black rounded-md shadow-md p-1 mt-1 bg-[#f4f0f0] w-[90%] mx-auto"
+					value={tareaData.comentario}
+					onChange={(e) => handleChange(e)}
+				/>
+				<label htmlFor="video" className="font-bold text-xl text-center">
+					Video
+				</label>
+				<input
+					type="text"
+					name="url"
+					id="url"
+					className="border border-black rounded-md shadow-md p-1 mt-1 bg-[#f4f0f0] w-[90%] mx-auto"
+					value={tareaData.url}
+					onChange={(e) => handleChange(e)}
+				/>
+				<div className="mx-auto mt-1 mb-1">
+					<label htmlFor="email" className="font-bold text-xl text-center">
+						Finalizada
+					</label>
+					<input
+						type="checkbox"
+						name="finalizada"
+						id="finalizada"
+						className="ms-2"
+						checked={
+							tareaData.finalizada == 1 || tareaData.finalizada == true
+								? true
+								: false
+						}
+						onChange={handleCheckbox2}
+					/>
+				</div>
 				<label htmlFor="user" className="font-bold text-xl text-center">
 					Voluntario relacionado
 				</label>
@@ -163,9 +224,9 @@ function TareasAdminDesplegable({ datos, voluntarios, animales }) {
 					className="border border-black rounded-md shadow-md p-1 mt-1 bg-[#f4f0f0] w-[90%] mx-auto"
 				>
 					<option value={null}>Ninguno</option>
-					{animalesData.map((animales, index) => (
-						<option key={index} value={animales.id}>
-							{animales.nombre}
+					{animalesData.map((animals, index) => (
+						<option key={index} value={animals.id}>
+							{animals.nombre}
 						</option>
 					))}
 				</select>

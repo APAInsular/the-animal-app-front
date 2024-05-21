@@ -16,15 +16,14 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 		// Lógica para marcar la tarea como completada
 		const userToken = JSON.parse(localStorage.getItem("token"));
 		console.log("intentando terminar tarea");
-		axios.get(cookieLink).then(function (response) {
-			let completedData = tareasData;
-			completedData.finalizada = 1;
+		axios.get(cookieLink).then((response) => {
+			let completedData = { ...tareasData, finalizada: 1 };
 			console.log(completedData);
 			console.log("un paso para terminar");
 			axios
 				.put(updateTareas + tareasData.id, completedData, {
 					headers: {
-						"X-CSRF-TOKEN": response.data.token,
+						"X-CSRF-TOKEN": response.data.token, // Fetch CSRF token asynchronously
 						Authorization: `Bearer ${userToken}`,
 						"Content-Type": "application/json",
 					},
