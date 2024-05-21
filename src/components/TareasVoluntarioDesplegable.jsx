@@ -15,23 +15,13 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 		const userToken = JSON.parse(localStorage.getItem("token"));
 		axios.get(cookieLink).then(function (response) {
 			axios
-				.put(
-					updateTareas + datos.id,
-					{
-						nombre: datos.nombre,
-						descripcion: datos.descripcion,
-						seRepite: datos.seRepite,
-						comentario: datos.comentario,
-						finalizada: true
+				.put(updateTareas + tareasData.id, completedData, {
+					headers: {
+						"X-CSRF-TOKEN": response.data.token,
+						Authorization: `Bearer ${userToken}`,
+						"Content-Type": "application/json",
 					},
-					{
-						headers: {
-							"X-CSRF-TOKEN": response.data.token, // Fetch CSRF token asynchronously
-							Authorization: `Bearer ${userToken}`,
-							"Content-Type": "application/json",
-						},
-					}
-				)
+				})
 				.then(function (response1) {
 					console.log(response1);
 				});

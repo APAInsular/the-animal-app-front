@@ -69,6 +69,7 @@ function VistaTareasVoluntario() {
 						tipo={"pendiente"}
 					/>
 				))}
+				{tareasPendientes.length == 0 ? <h3> No hay tareas pendientes</h3> : ""}
 				{/* <div className="section-date text-sm text-gray-500">
 					Fecha: XX/XX/XXXX
 				</div> */}
@@ -84,6 +85,7 @@ function VistaTareasVoluntario() {
 						tipo={"atrasada"}
 					/>
 				))}
+				{tareasAtrasadas.length == 0 ? <h3> No hay tareas atrasadas</h3> : ""}
 			</div>
 
 			{/* Tareas Completadas */}
@@ -96,6 +98,11 @@ function VistaTareasVoluntario() {
 						tipo={"completada"}
 					/>
 				))}
+				{tareasFinalizadas.length == 0 ? (
+					<h3> No hay tareas pendientes</h3>
+				) : (
+					""
+				)}
 			</div>
 		</div>
 	);
