@@ -85,18 +85,17 @@ function AnimalCard({ datos, onEdit, onDelete }) {
   };
 
   const handleAddNecesidades = () => {
-    setAnimalData({
-      ...animalData,
-      necesidades_y_cuidados: [
-        ...animalData.necesidades_y_cuidados,
-        { descripcion: '' },
-      ],
-    });
+    const newNecesidad = { descripcion: '' }; // Define el nuevo objeto de necesidad.
+    setAnimalData(prevData => ({
+      ...prevData,
+      necesidades_y_cuidados: [...prevData.necesidades_y_cuidados, newNecesidad] // Añade el nuevo objeto al final del array existente.
+    }));
   };
+
 
   const handleEdit = async () => {
     try {
-      const response = await axios.put(`${animalsLink}/${animalData.id}`, animalData, {
+      const response = await axios.put(`${animalsLink}${animalData.id}`, animalData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -112,11 +111,13 @@ function AnimalCard({ datos, onEdit, onDelete }) {
     onDelete(animalData.id);
   };
 
+  console.log(animalData)
+
   return (
     <div className="bg-white shadow-md rounded-lg p-4 mb-4 ">
       <div className="flex justify-between items-center cursor-pointer " onClick={() => setDesplegado(!desplegado)}>
         <h2 className="text-xl font-bold">{animalData.nombre}</h2>
-        <button  className="text-lg">
+        <button className="text-lg">
           {desplegado ? '▲' : '▼'}
         </button>
       </div>
@@ -159,10 +160,20 @@ function AnimalCard({ datos, onEdit, onDelete }) {
             <input type="date" name="fecha_llegada" value={animalData.fecha_llegada} onChange={handleChange} className="input input-bordered w-full" />
             <p><strong>FECHA FALLECIMIENTO:</strong></p>
             <input type="date" name="fecha_fallecimiento" value={animalData.fecha_fallecimiento} onChange={handleChange} className="input input-bordered w-full" />
-            <p><strong>HISTORIAL CLINICO:</strong></p>
-            <textarea name="historial_clinico" value={animalData.historial_clinico} onChange={handleChange} placeholder="Historial Clínico" className="textarea textarea-bordered w-full" />
             <p><strong>SUPERPODER:</strong></p>
             <textarea name="superpoder" value={animalData.superpoder} onChange={handleChange} placeholder="Superpoder" className="textarea textarea-bordered w-full" />
+            <p><strong>Necesidades:</strong></p>
+            <textarea name="necesidades" value={animalData.necesidades} onChange={handleChange} placeholder="Necesidades" className="textarea textarea-bordered w-full" />
+            <p><strong>Alimentación:</strong></p>
+            <textarea name="alimentacion" value={animalData.alimentacion} onChange={handleChange} placeholder="Alimentación" className="textarea textarea-bordered w-full" />
+            <p><strong>Cuidados:</strong></p>
+            <textarea name="cuidados" value={animalData.cuidados} onChange={handleChange} placeholder="Cuidados" className="textarea textarea-bordered w-full" />
+
+
+
+
+
+            {/* ------------ HISTORIAL MEDICO FUNCIONAL ------------------- */}
             {animalData.historiales_medicos.map((historial, index) => (
               <div key={index} className="border rounded-lg p-2 mb-2">
                 <h4 className="font-bold">Historial Médico {index + 1}</h4>
@@ -171,28 +182,53 @@ function AnimalCard({ datos, onEdit, onDelete }) {
               </div>
             ))}
             <button type="button" onClick={handleAddHistorial} className="btn btn-primary mb-4">Añadir Historial Médico</button>
+            {/* ----------- VACUNACIONES FUNCIONALES --------------------- */}
             {animalData.vacunaciones.map((vacunacion, index) => (
               <div key={index} className="border rounded-lg p-2 mb-2">
                 <h4 className="font-bold">Vacunación {index + 1}</h4>
-                <input type="text" name="nombre" value={vacunacion.nombre} onChange={(event) => handleVacunacionChange(index, event)} placeholder="Nombre de la vacuna" className="input input-bordered w-full mb-2" />
                 <input type="date" name="fecha" value={vacunacion.fecha} onChange={(event) => handleVacunacionChange(index, event)} className="input input-bordered w-full mb-2" />
+                <textarea name="nombre" value={vacunacion.nombre} onChange={(event) => handleVacunacionChange(index, event)} placeholder="Descripción" className="textarea textarea-bordered w-full" />
               </div>
             ))}
-            <button type="button" onClick={handleAddVacunacion} className="btn btn-primary mb-4">Añadir Vacunación</button>
+            <button type="button" onClick={handleAddVacunacion} className="btn btn-primary mb-4">Añadir Vacuna</button>
+
+            {/* ----------- NECESIDADES FUNCIONALES ---------------------
+            {animalData.necesidades_y_cuidados.map((necesidad, index) => (
+              <div key={index} className="border rounded-lg p-2 mb-2">
+                <h4 className="font-bold">Necesidad {index + 1}</h4>
+                <input type="date" name="fecha" value={necesidad.fecha} onChange={(event) => handleNecesidadesChange(index, event)} className="input input-bordered w-full mb-2" />
+                <textarea name="nombre" value={necesidad.nombre} onChange={(event) => handleNecesidadesChange(index, event)} placeholder="Descripción" className="textarea textarea-bordered w-full" />
+              </div>
+            ))}
+            <button type="button" onClick={handleAddNecesidades} className="btn btn-primary mb-4">Añadir necesidad</button> */}
+            {/* ESTO GENERA HISTORIALES MEDICOS ENCIMA DEL BOTON DE AÑADIR HISTORIAL MEDICO 
+            <button type="button" onClick={handleAddHistorial} className="btn btn-primary mb-4">Añadir Historial Médico</button>
+            {animalData.historiales_medicos.map((historial, index) => (
+              <div key={index} className="border rounded-lg p-2 mb-2">
+                <h4 className="font-bold">Vacunación {index + 1}</h4>
+                <input type="text" name="nombre" value={historial.descripcion} onChange={(event) => handleHistorialChange(index, event)} placeholder="Nombre de la vacuna" className="input input-bordered w-full mb-2" />
+                <input type="date" name="fecha" value={historial.fecha} onChange={(event) => handleHistorialChange(index, event)} className="input input-bordered w-full mb-2" />
+              </div>
+            ))} */}
+
+            {/* ESTO GENERA NECESIADES ENCIMA DEL BOTON DE AÑADIR NECESIDADES  */}
+            {/* <button type="button" onClick={handleAddVacunacion} className="btn btn-primary mb-4">Añadir Vacunación</button>
             {animalData.necesidades_y_cuidados.map((necesidad, index) => (
               <div key={index} className="border rounded-lg p-2 mb-2">
                 <h4 className="font-bold">Necesidad {index + 1}</h4>
                 <textarea name="descripcion" value={necesidad.descripcion} onChange={(event) => handleNecesidadesChange(index, event)} placeholder="Descripción" className="textarea textarea-bordered w-full mb-2" />
               </div>
-            ))}
-            <button type="button" onClick={handleAddNecesidades} className="btn btn-primary mb-4">Añadir Necesidad</button>
+            ))} */}
+
+            {/* ESTO GENERA NECESIDADES DEBAJO DEL BOTON DE AÑADIR NECESIDADES */}
+            {/* <button type="button" onClick={handleAddNecesidades} className="btn btn-primary mb-4">Añadir Necesidad</button>
             {animalData.necesidades_y_cuidados.map((necesidad, index) => (
               <div key={index} className="border rounded-lg p-2 mb-2">
                 <h4 className="font-bold">Necesidad {index + 1}</h4>
                 <textarea name="descripcion" value={necesidad.descripcion} onChange={(event) => handleNecesidadesChange(index, event)} placeholder="Descripción" className="textarea textarea-bordered w-full mb-2" />
               </div>
-            ))}
-            <button type="button" onClick={handleAddNecesidades} className="btn btn-primary mb-4">Añadir Cuidado</button>
+            ))} */}
+            {/* <button type="button" className="btn btn-primary mb-4">Añadir Cuidado</button> */}
             <div className="flex justify-between">
               <button type="button" onClick={handleEdit} className="btn btn-success">Guardar</button>
               <button type="button" onClick={() => setIsEditing(false)} className="btn btn-error">Cancelar</button>
@@ -235,47 +271,31 @@ function AnimalCard({ datos, onEdit, onDelete }) {
               )}
             </div>
             <div className="col-span-2">
-              <h4 className="font-bold">Historial Clínico</h4>
-              <p>{animalData.historial_clinico}</p>
-            </div>
-            <div className="col-span-2">
               <h4 className="font-bold">Superpoder</h4>
               <p>{animalData.superpoder}</p>
             </div>
             <div className="col-span-2">
               <h4 className="font-bold">Alimentación</h4>
-              {animalData.necesidades_y_cuidados.length > 0 ? (
-                animalData.necesidades_y_cuidados.map((necesidad, index) => (
-                  <div key={index} className="border rounded-lg p-2 mb-2">
-                    <p><strong>Descripción:</strong> {necesidad.descripcion}</p>
-                  </div>
-                ))
+              {animalData.alimentacion ? (
+                <p>{animalData.alimentacion}</p>
               ) : (
                 <p>No hay Alimentación registrada.</p>
               )}
             </div>
             <div className="col-span-2">
               <h4 className="font-bold">Necesidades</h4>
-              {animalData.necesidades_y_cuidados.length > 0 ? (
-                animalData.necesidades_y_cuidados.map((necesidad, index) => (
-                  <div key={index} className="border rounded-lg p-2 mb-2">
-                    <p><strong>Descripción:</strong> {necesidad.descripcion}</p>
-                  </div>
-                ))
+              {animalData.necesidades ? (
+                <p>{animalData.necesidades}</p>
               ) : (
-                <p>No hay cuidados registrados.</p>
+                <p>No hay necesidades registrada.</p>
               )}
             </div>
             <div className="col-span-2">
               <h4 className="font-bold">Cuidados</h4>
-              {animalData.necesidades_y_cuidados.length > 0 ? (
-                animalData.necesidades_y_cuidados.map((necesidad, index) => (
-                  <div key={index} className="border rounded-lg p-2 mb-2">
-                    <p><strong>Descripción:</strong> {necesidad.descripcion}</p>
-                  </div>
-                ))
+              {animalData.cuidados ? (
+                <p>{animalData.cuidados}</p>
               ) : (
-                <p>No hay necesidades  registrados.</p>
+                <p>No hay cuidados registrados.</p>
               )}
             </div>
             <div className="col-span-2 flex justify-between mt-4">
