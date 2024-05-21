@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "../index.css";
-import { FaMagnifyingGlass } from "react-icons/fa6";
 import AnimalesAddForm from "./AnimalesAddForm";
 import AnimalDesplegable from "./AnimalDesplegable";
 import { cookieLink, animalsLink } from "../data/data";
 import axios from "axios";
+import { FaSearch } from 'react-icons/fa';
 
 function VistaAnimales() {
 	const [animals, setAnimals] = useState([]);
@@ -49,42 +49,52 @@ function VistaAnimales() {
 		animal.nombre.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
+
 	return (
 		<>
-			<div className="flex justify-center mt-2 px-4">
-				<div className="collapse bg-[#26dd9a] border border-black">
-					<input type="checkbox" />
-					<div className="collapse-title text-xl font-medium text-center">
-						Crear Nuevo Animal
+			<div className="flex justify-center mt-4 px-4">
+				<div className="collapse collapse-arrow border border-black bg-lime-400">
+					<input type="checkbox" className="peer" />
+					<div className="collapse-title text-2xl font-medium text-black flex items-center justify-center cursor-pointer">
+						<span>Añadir nuevo animal</span>
 					</div>
-					<div className="collapse-content bg-[#f4f0f0] border-t-2 border-black p-1">
+					<div className="collapse-content bg-base-200 border-t-2 border-black p-4">
 						<AnimalesAddForm />
 					</div>
 				</div>
 			</div>
-			<div>
-				<div className="w-[90%] mx-auto p-1 flex flex-row">
+
+			<div className="mt-6">
+				<div className="w-[90%] mx-auto p-1 flex items-center">
 					<input
 						type="text"
 						name="search"
 						id="search"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
-						className="bg-[#f4f0f0] rounded-md p-2 border border-black w-[100%] mt-1"
+						className="input input-bordered w-full"
 						placeholder="Buscar animales..."
 					/>
-					<button className="-ms-7">
-						<FaMagnifyingGlass />
+					<button className="btn btn-primary ml-2">
+						<FaSearch />
 					</button>
 				</div>
 			</div>
+
 			<div className="w-[90%] mx-auto mt-4">
 				{filteredAnimals.length > 0 ? (
 					filteredAnimals.map((animal, index) => (
 						<AnimalDesplegable datos={animal} key={index} onDelete={handleDelete} />
 					))
 				) : (
-					<p>No se encontraron animales.</p>
+					<div className="alert alert-warning shadow-lg">
+						<div>
+							<svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M12 20h.01M12 4h.01M20 20h-8M4 20h2m12 0H8M6 16h12M6 12h12M6 8h8"></path>
+							</svg>
+							<span>No se encontraron animales.</span>
+						</div>
+					</div>
 				)}
 			</div>
 		</>

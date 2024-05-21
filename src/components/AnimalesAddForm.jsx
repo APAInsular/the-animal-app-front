@@ -118,348 +118,284 @@ function AnimalesAddForm() {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="flex flex-col">
-			<div className="flex flex-row justify-center">
-				<div className="flex flex-col mx-1">
-					<label htmlFor="nombre" className="font-bold">
-						Nombre
-					</label>
+		<form onSubmit={handleSubmit} className="p-4 bg-white shadow-lg rounded-lg space-y-4">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+				<div className="flex flex-col">
+					<label htmlFor="nombre" className="font-bold mb-1">Nombre</label>
 					<input
 						type="text"
 						name="nombre"
 						id="nombre"
 						value={formData.nombre}
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="fecha_esterilizacion" className="font-bold">
-						Fecha Esterilización
-					</label>
+				<div className="flex flex-col">
+					<label htmlFor="fecha_esterilizacion" className="font-bold mb-1">Fecha Esterilización</label>
 					<input
 						type="date"
 						name="fecha_esterilizacion"
 						id="fecha_esterilizacion"
 						value={formData.fecha_esterilizacion}
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="fecha_nacimiento" className="font-bold">
-						Fecha Nacimiento
-					</label>
+				<div className="flex flex-col">
+					<label htmlFor="fecha_nacimiento" className="font-bold mb-1">Fecha Nacimiento</label>
 					<input
 						type="date"
 						name="fecha_nacimiento"
 						id="fecha_nacimiento"
 						value={formData.fecha_nacimiento}
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-			</div>
-			<div className="flex flex-row justify-center">
-				<div className="flex flex-col mx-1">
-					<label htmlFor="foto" className="font-bold">
-						Foto del Animal
-					</label>
+				<div className="flex flex-col">
+					<label htmlFor="foto" className="font-bold mb-1">Foto del Animal</label>
 					<input
 						type="file"
 						name="foto"
 						id="foto"
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="fecha_llegada" className="font-bold">
-						Fecha Llegada
-					</label>
+				<div className="flex flex-col">
+					<label htmlFor="fecha_llegada" className="font-bold mb-1">Fecha Llegada</label>
 					<input
 						type="date"
 						name="fecha_llegada"
 						id="fecha_llegada"
 						value={formData.fecha_llegada}
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="fecha_fallecimiento" className="font-bold">
-						Fecha Fallecimiento
-					</label>
+				<div className="flex flex-col">
+					<label htmlFor="fecha_fallecimiento" className="font-bold mb-1">Fecha Fallecimiento</label>
 					<input
 						type="date"
 						name="fecha_fallecimiento"
 						id="fecha_fallecimiento"
 						value={formData.fecha_fallecimiento}
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="raza" className="font-bold">
-						Raza
-					</label>
+				<div className="flex flex-col">
+					<label htmlFor="raza" className="font-bold mb-1">Raza</label>
 					<input
 						type="text"
 						name="raza"
 						id="raza"
 						value={formData.raza}
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-			</div>
-			<div className="flex flex-row justify-center">
-				<div className="flex flex-col mx-1">
-					<label htmlFor="tipo" className="font-bold">
-						Tipo
-					</label>
+				<div className="flex flex-col">
+					<label htmlFor="tipo" className="font-bold mb-1">Tipo</label>
 					<input
 						type="text"
 						name="tipo"
 						id="tipo"
 						value={formData.tipo}
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="microchip" className="font-bold">
-						Nº Microchip
-					</label>
+				<div className="flex flex-col">
+					<label htmlFor="microchip" className="font-bold mb-1">Nº Microchip</label>
 					<input
 						type="text"
 						name="microchip"
 						id="microchip"
 						value={formData.microchip}
 						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
 					/>
 				</div>
-				<div className="flex flex-col mx-1 justify-center">
-					<label htmlFor="esterilizado" className="font-bold">
-						Esterilizado
-					</label>
+				<div className="flex flex-col justify-center">
+					<label htmlFor="esterilizado" className="font-bold mb-1">Esterilizado</label>
 					<input
 						type="checkbox"
 						name="esterilizado"
 						id="esterilizado"
 						checked={formData.esterilizado}
 						onChange={handleChange}
-						className="p-1 mt-4 mb-3 border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none mt-2"
 					/>
 				</div>
-			</div>
-			<div className="flex flex-row justify-center">
-				<div className="flex flex-col mx-1">
-					<label htmlFor="zoocan" className="font-bold">
-						Alta Zoocan
-					</label>
+				<div className="flex flex-col justify-center">
+					<label htmlFor="zoocan" className="font-bold mb-1">Alta Zoocan</label>
 					<input
 						type="checkbox"
 						name="zoocan"
 						id="zoocan"
 						checked={formData.zoocan}
 						onChange={handleChange}
-						className="p-1 mt-4 mb-3 border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none mt-2"
 					/>
 				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="cartilla" className="font-bold">
-						Tiene Cartilla
-					</label>
+				<div className="flex flex-col justify-center">
+					<label htmlFor="cartilla" className="font-bold mb-1">Cartilla</label>
 					<input
 						type="checkbox"
 						name="cartilla"
 						id="cartilla"
 						checked={formData.cartilla}
 						onChange={handleChange}
-						className="p-1 mt-4 mb-3 border border-black"
-					/>
-				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="desparasitacion" className="font-bold">
-						Desparasitacion
-					</label>
-					<input
-						type="date"
-						name="desparasitacion"
-						id="desparasitacion"
-						value={formData.desparasitacion}
-						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
+						className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none mt-2"
 					/>
 				</div>
 			</div>
-			<div className="flex flex-row justify-center">
-				<div className="flex flex-col mx-1">
-					<label htmlFor="alimentacion" className="font-bold">
-						Alimentación
-					</label>
-					<input
-						type="text"
-						name="alimentacion"
-						id="alimentacion"
-						value={formData.alimentacion}
-						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
-					/>
-				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="cuidados" className="font-bold">
-						Cuidados
-					</label>
-					<input
-						type="text"
-						name="cuidados"
-						id="cuidados"
-						value={formData.cuidados}
-						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
-					/>
-				</div>
-				<div className="flex flex-col mx-1">
-					<label htmlFor="necesidades" className="font-bold">
-						Necesidades
-					</label>
-					<input
-						type="text"
-						name="necesidades"
-						id="necesidades"
-						value={formData.necesidades}
-						onChange={handleChange}
-						className="p-1 rounded-lg shadow-md border border-black"
-					/>
-				</div>
+
+
+			<div className="flex flex-col mt-4">
+				<label htmlFor="especie" className="font-bold mb-1">Especie</label>
+				<textarea
+					name="especie"
+					id="especie"
+					value={formData.especie}
+					onChange={handleChange}
+					className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
+					rows="2"
+				></textarea>
 			</div>
-			<div className="flex flex-col justify-center">
-				<div className="flex flex-row justify-center">
-					<h2 className="font-bold text-lg">Historial Médico</h2>
-					<button
-						type="button"
-						className="p-2 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
-						onClick={addHistorialMedico}
-					>
-						<BiPlus />
-					</button>
-				</div>
-				{formData.historiales_medicos.map((historial, index) => (
-					<div key={index} className="flex flex-col my-2">
-						<div className="flex flex-row items-center">
-							<label htmlFor={`historial_fecha_${index}`} className="font-bold mr-2">
-								Fecha
-							</label>
-							<input
-								type="date"
-								name="fecha"
-								id={`historial_fecha_${index}`}
-								value={historial.fecha}
-								onChange={(event) => handleHistorialChange(index, event)}
-								className="p-1 rounded-lg shadow-md border border-black"
-							/>
-							<button
-								type="button"
-								className="p-1 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
-								onClick={() => removeHistorialMedico(index)}
-							>
-								<TbTrash />
-							</button>
-						</div>
-						<label htmlFor={`historial_descripcion_${index}`} className="font-bold mt-2">
-							Descripción
-						</label>
-						<textarea
-							name="descripcion"
-							id={`historial_descripcion_${index}`}
-							value={historial.descripcion}
-							onChange={(event) => handleHistorialChange(index, event)}
-							className="p-1 rounded-lg shadow-md border border-black mt-1"
-						/>
-					</div>
-				))}
+
+			<div className="flex flex-col mt-4">
+				<label htmlFor="alimentacion" className="font-bold mb-1">Alimentación</label>
+				<textarea
+					name="alimentacion"
+					id="alimentacion"
+					value={formData.alimentacion}
+					onChange={handleChange}
+					className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
+					rows="2"
+				></textarea>
 			</div>
-			<div className="flex flex-col justify-center">
-				<div className="flex flex-row justify-center">
-					<h2 className="font-bold text-lg">Vacunaciones</h2>
-					<button
-						type="button"
-						className="p-2 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
-						onClick={addVacunacion}
-					>
-						<BiPlus />
-					</button>
-				</div>
-				{formData.vacunaciones.map((vacunacion, index) => (
-					<div key={index} className="flex flex-col my-2">
-						<div className="flex flex-row items-center">
-							<label htmlFor={`vacunacion_nombre_${index}`} className="font-bold mr-2">
-								Nombre
-							</label>
-							<input
-								type="text"
-								name="nombre"
-								id={`vacunacion_nombre_${index}`}
-								value={vacunacion.nombre}
-								onChange={(event) => handleVacunacionChange(index, event)}
-								className="p-1 rounded-lg shadow-md border border-black"
-							/>
-							<label htmlFor={`vacunacion_fecha_${index}`} className="font-bold mr-2 ml-2">
-								Fecha
-							</label>
-							<input
-								type="date"
-								name="fecha"
-								id={`vacunacion_fecha_${index}`}
-								value={vacunacion.fecha}
-								onChange={(event) => handleVacunacionChange(index, event)}
-								className="p-1 rounded-lg shadow-md border border-black"
-							/>
-							<button
-								type="button"
-								className="p-1 border border-black ms-2 hover:scale-105 transition-all rounded-xl bg-white"
-								onClick={() => removeVacunacion(index)}
-							>
-								<TbTrash />
-							</button>
-						</div>
-					</div>
-				))}
+
+			<div className="flex flex-col mt-4">
+				<label htmlFor="cuidados" className="font-bold mb-1">Cuidados</label>
+				<textarea
+					name="cuidados"
+					id="cuidados"
+					value={formData.cuidados}
+					onChange={handleChange}
+					className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
+					rows="2"
+				></textarea>
 			</div>
-			<div className="flex flex-col mt-2">
-				<h2 className="mx-auto text-lg font-bold">SuperPoder</h2>
+
+			<div className="flex flex-col mt-4">
+				<label htmlFor="necesidades" className="font-bold mb-1">Necesidades</label>
+				<textarea
+					name="necesidades"
+					id="necesidades"
+					value={formData.necesidades}
+					onChange={handleChange}
+					className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
+					rows="2"
+				></textarea>
+			</div>
+
+			<div className="flex flex-col mt-4">
+				<label htmlFor="superpoder" className="font-bold mb-1">Superpoder</label>
 				<textarea
 					name="superpoder"
 					id="superpoder"
-					cols="20"
-					rows="10"
-					className="border border-black rounded-md shadow-md mx-auto w-4/12 p-1 bg-white h-24 mt-1 resize-none"
 					value={formData.superpoder}
 					onChange={handleChange}
+					className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
+					rows="2"
 				></textarea>
 			</div>
-			<div className="flex flex-col mt-2">
-				<h2 className="mx-auto text-lg font-bold">Descripcion</h2>
-				<textarea
-					name="descripcion"
-					id="descripcion"
-					cols="20"
-					rows="10"
-					className="border border-black rounded-md shadow-md mx-auto w-4/12 p-1 bg-white h-24 mt-1 resize-none"
-					value={formData.descripcion}
-					onChange={handleChange}
-				></textarea>
+
+			<div className="mt-4">
+				<h3 className="text-lg font-semibold mb-2">Historial Médico</h3>
+				{formData.historiales_medicos.map((historial, index) => (
+					<div key={index} className="flex flex-col md:flex-row items-center gap-2 mb-2">
+						<input
+							type="date"
+							name="fecha"
+							value={historial.fecha}
+							onChange={(event) => handleHistorialChange(index, event)}
+							className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none w-full md:w-auto"
+						/>
+						<input
+							type="text"
+							name="descripcion"
+							placeholder="Descripción"
+							value={historial.descripcion}
+							onChange={(event) => handleHistorialChange(index, event)}
+							className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none w-full"
+						/>
+						<button
+							type="button"
+							onClick={() => removeHistorialMedico(index)}
+							className="p-2 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition-colors"
+						>
+							<TbTrash size={20} />
+						</button>
+					</div>
+				))}
+				<button
+					type="button"
+					onClick={addHistorialMedico}
+					className="p-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-colors flex items-center"
+				>
+					<BiPlus size={20} className="mr-1" />
+					Añadir Historial Médico
+				</button>
 			</div>
-			<div className="flex flex-col mt-2">
-				<input
-					type="submit"
-					value="Crear Animal"
-					className="rounded-xl p-2 bg-[#26dd9a] border border-black w-1/2 mx-auto mt-4 font-bold"
-				/>
+
+			<div className="mt-4">
+				<h3 className="text-lg font-semibold mb-2">Vacunaciones</h3>
+				{formData.vacunaciones.map((vacunacion, index) => (
+					<div key={index} className="flex flex-col md:flex-row items-center gap-2 mb-2">
+						<input
+							type="text"
+							name="nombre"
+							placeholder="Nombre de la vacuna"
+							value={vacunacion.nombre}
+							onChange={(event) => handleVacunacionChange(index, event)}
+							className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none w-full md:w-auto"
+						/>
+						<input
+							type="date"
+							name="fecha"
+							value={vacunacion.fecha}
+							onChange={(event) => handleVacunacionChange(index, event)}
+							className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none w-full"
+						/>
+						<button
+							type="button"
+							onClick={() => removeVacunacion(index)}
+							className="p-2 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition-colors"
+						>
+							<TbTrash size={20} />
+						</button>
+					</div>
+				))}
+				<button
+					type="button"
+					onClick={addVacunacion}
+					className="p-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-colors flex items-center"
+				>
+					<BiPlus size={20} className="mr-1" />
+					Añadir Vacunación
+				</button>
 			</div>
+
+			<button
+				type="submit"
+				className="w-full p-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors"
+			>
+				Guardar
+			</button>
 		</form>
 	);
 }

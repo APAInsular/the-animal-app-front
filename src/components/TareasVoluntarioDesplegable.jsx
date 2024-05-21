@@ -6,8 +6,6 @@ import { cookieLink, updateTareas } from "../data/data";
 function TareasVoluntarioDesplegable({ datos, tipo }) {
 	const [secciones, setSecciones] = useState(false);
 
-	const [tareasData, setTareasData] = useState(datos);
-
 	const toggleSecciones = () => {
 		setSecciones(!secciones);
 	};
@@ -30,8 +28,7 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 				})
 				.then(function (response1) {
 					console.log(response1);
-				})
-				.catch((error) => console.log(error));
+				});
 		});
 	};
 
@@ -79,7 +76,7 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 								: "bg-green-300"
 						} w-8 h-8 mr-2 rounded-full`}
 					></div>
-					<div className="task-title">{tareasData.nombre}</div>
+					<div className="task-title">{datos.nombre}</div>
 				</div>
 				<FaAngleDown
 					className={`text-gray-500 ml-auto ${
@@ -91,11 +88,11 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 				<div className="task-details transition-all duration-300 ease-in-out mt-4">
 					<div className="grid grid-cols-1 gap-4">
 						<div className="grid-item">VIDEO DE YOUTUBE:</div>
-						{tareasData.url ? (
+						{datos.url ? (
 							<iframe
 								src={
 									"https://www.youtube.com/embed/" +
-									obtenerIdVideoYoutube(tareasData.url)
+									obtenerIdVideoYoutube(datos.url)
 								}
 								frameBorder="0"
 								allow="accelerometer; autoplay; encrypted-media; gyroscope;"
@@ -105,12 +102,12 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 							""
 						)}
 						<div className="grid-item">TAREA:</div>
-						<div className="grid-item text-gray-600">{tareasData.nombre}</div>
+						<div className="grid-item text-gray-600">{datos.nombre}</div>
 						<div className="grid-item">DESCRIPCIÓN:</div>
-						<div className="text-gray-600">{tareasData.descripcion}</div>
+						<div className="text-gray-600">{datos.descripcion}</div>
 						<div className="grid-item">FECHA DE LA TAREA:</div>
 						<div className="grid-item section-date text-sm text-gray-500">
-							{handleDates(tareasData.fecha)}
+							{handleDates(datos.fecha)}
 						</div>
 						<div className="grid-item">
 							{tipo == "completada" ? (
