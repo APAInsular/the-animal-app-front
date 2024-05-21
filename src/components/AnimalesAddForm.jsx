@@ -119,7 +119,6 @@ function AnimalesAddForm() {
 
 	return (
 		<form onSubmit={handleSubmit} className="p-4 bg-white shadow-lg rounded-lg space-y-4">
-			<h2 className="text-2xl font-bold text-center mb-4">Añadir Nuevo Animal</h2>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				<div className="flex flex-col">
 					<label htmlFor="nombre" className="font-bold mb-1">Nombre</label>
@@ -254,17 +253,6 @@ function AnimalesAddForm() {
 				</div>
 			</div>
 
-			<div className="flex flex-col mt-4">
-				<label htmlFor="historia" className="font-bold mb-1">Historia</label>
-				<textarea
-					name="historia"
-					id="historia"
-					value={formData.historia}
-					onChange={handleChange}
-					className="p-2 rounded-lg shadow-md border border-gray-300 focus:border-indigo-500 focus:outline-none"
-					rows="4"
-				></textarea>
-			</div>
 
 			<div className="flex flex-col mt-4">
 				<label htmlFor="especie" className="font-bold mb-1">Especie</label>
