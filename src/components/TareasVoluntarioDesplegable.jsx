@@ -5,7 +5,7 @@ import { cookieLink, updateTareas } from "../data/data";
 
 function TareasVoluntarioDesplegable({ datos, tipo }) {
 	const [secciones, setSecciones] = useState(false);
-
+	const [tareasData, setTareasData] = useState(datos);
 	const toggleSecciones = () => {
 		setSecciones(!secciones);
 	};
@@ -13,11 +13,15 @@ function TareasVoluntarioDesplegable({ datos, tipo }) {
 	const handleComplete = () => {
 		// Lógica para marcar la tarea como completada
 		const userToken = JSON.parse(localStorage.getItem("token"));
-		axios.get(cookieLink).then(function (response) {
+		console.log("intentando terminar tarea");
+		axios.get(cookieLink).then((response) => {
+			let completedData = { ...tareasData, finalizada: 1 };
+			console.log(completedData);
+			console.log("un paso para terminar");
 			axios
 				.put(updateTareas + tareasData.id, completedData, {
 					headers: {
-						"X-CSRF-TOKEN": response.data.token,
+						"X-CSRF-TOKEN": response.data.token, // Fetch CSRF token asynchronously
 						Authorization: `Bearer ${userToken}`,
 						"Content-Type": "application/json",
 					},
