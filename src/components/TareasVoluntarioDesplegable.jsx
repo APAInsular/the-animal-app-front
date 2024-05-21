@@ -5,7 +5,7 @@ import { cookieLink, updateTareas } from "../data/data";
 
 function TareasVoluntarioDesplegable({ datos, tipo }) {
 	const [secciones, setSecciones] = useState(false);
-
+	const [tareasData, setTareasData] = useState(datos);
 	const toggleSecciones = () => {
 		setSecciones(!secciones);
 	};
