@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { createUser, getEspecies, getFormacion } from "../data/data";
+import { cookieLink, createUser, getFormacion } from "../data/data";
 
 function VistaGeneral() {
 	// Estado para los datos de nuevos usuarios, especies y formaciones
 	const [newUser, setNewUser] = useState({});
-	const [newEspecie, setNewEspecie] = useState({});
 	const [newFormacion, setNewFormacion] = useState({});
 
 	// Estado para almacenar usuarios, especies y formaciones existentes
 	const [users, setUsers] = useState([]);
-	const [especies, setEspecies] = useState([]);
 	const [formaciones, setFormaciones] = useState([]);
 
 	// Función para manejar el cambio en los campos de usuario
@@ -18,15 +16,6 @@ function VistaGeneral() {
 		const { name, value } = event.target;
 		setNewUser({
 			...newUser,
-			[name]: value,
-		});
-	};
-
-	// Función para manejar el cambio en los campos de especie
-	const handleChangeEspecie = (event) => {
-		const { name, value } = event.target;
-		setNewEspecie({
-			...newEspecie,
 			[name]: value,
 		});
 	};
@@ -42,41 +31,41 @@ function VistaGeneral() {
 
 	// Función para enviar el formulario según el tipo (usuario, especie, formación)
 	const handleSubmit = async (event, tipo) => {
+		console.log("empieza el submit");
 		event.preventDefault();
+		const userToken = JSON.parse(localStorage.getItem("token"));
+		axios.get(cookieLink).then((response) => {
+			const csrfToken = response.data.token;
+			const headers = {
+				"X-CSRF-TOKEN": csrfToken,
+				Authorization: `Bearer ${userToken}`,
+				"Content-Type": "application/json",
+			};
 
-		try {
-			let response;
-
-			// Lógica de envío del formulario según el tipo
-			if (tipo === "user") {
-				response = await axios.post(createUser, newUser);
-				setUsers([...users, response.data]);
-			} else if (tipo === "especie") {
-				response = await axios.post(getEspecies, newEspecie);
-				setEspecies([...especies, response.data]);
-			} else if (tipo === "formacion") {
-				response = await axios.post(getFormacion, newFormacion);
-				setFormaciones([...formaciones, response.data]);
+			if (tipo == "user") {
+				axios.post(createUser, newUser, { headers }).then((response1) => {
+					console.log("empieza el submit de usuario");
+					setUsers([...users, response1.data]);
+				});
+			} else if (tipo == "formacion") {
+				console.log("empieza el submit de formacion");
+				axios
+					.post(getFormacion, newFormacion, { headers })
+					.then((response1) => {
+						setFormaciones([...formaciones, response1.data]);
+						console.log(response1);
+					});
 			}
-
-			// Reiniciar los campos de entrada después de enviar el formulario
-			setNewUser({});
-			setNewEspecie({});
-			setNewFormacion({});
-		} catch (error) {
-			console.error("Error al enviar el formulario:", error);
-		}
+		});
 	};
 
 	// Lógica para cargar los datos iniciales al cargar la página
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const [especiesResponse, formacionesResponse] = await Promise.all([
-					axios.get(getEspecies),
+				const [formacionesResponse] = await Promise.all([
 					axios.get(getFormacion),
 				]);
-				setEspecies(especiesResponse.data);
 				setFormaciones(formacionesResponse.data);
 			} catch (error) {
 				console.error("Error al cargar datos iniciales:", error);
@@ -94,7 +83,9 @@ function VistaGeneral() {
 					<h2 className="text-xl font-semibold mb-4">Crear Usuario</h2>
 					<form onSubmit={(e) => handleSubmit(e, "user")}>
 						<div className="mb-4">
-							<label htmlFor="name" className="block font-semibold mb-2">Nombre</label>
+							<label htmlFor="name" className="block font-semibold mb-2">
+								Nombre
+							</label>
 							<input
 								type="text"
 								name="name"
@@ -105,7 +96,9 @@ function VistaGeneral() {
 							/>
 						</div>
 						<div className="mb-4">
-							<label htmlFor="email" className="block font-semibold mb-2">Email</label>
+							<label htmlFor="email" className="block font-semibold mb-2">
+								Email
+							</label>
 							<input
 								type="email"
 								name="email"
@@ -115,7 +108,11 @@ function VistaGeneral() {
 								onChange={handleChangeUser}
 							/>
 						</div>
-						<button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded font-semibold hover:bg-blue-600">Crear Usuario</button>
+						<input
+							type="submit"
+							value="Crear Usuario"
+							className="bg-blue-500 text-white w-2/5 mx-auto mt-4 px-4 py-2 rounded font-semibold hover:bg-blue-600 cursor-pointer"
+						/>
 					</form>
 				</div>
 
@@ -135,7 +132,7 @@ function VistaGeneral() {
 							id="nombre"
 							className="w-full px-3 py-2 border border-gray-300 rounded"
 							value={newFormacion.nombre || ""}
-							onChange={handleChangeFormacion}
+							onChange={(e) => handleChangeFormacion(e)}
 						/>
 						<label htmlFor="fecha_inicio" className="block font-semibold mb-2">
 							Fecha Inicio
@@ -146,7 +143,7 @@ function VistaGeneral() {
 							id="fecha_inicio"
 							className="w-full px-3 py-2 border border-gray-300 rounded"
 							value={newFormacion.fecha_inicio || ""}
-							onChange={handleChangeFormacion}
+							onChange={(e) => handleChangeFormacion(e)}
 						/>
 						<label htmlFor="fecha_final" className="block font-semibold mb-2">
 							Fecha Final
@@ -157,12 +154,14 @@ function VistaGeneral() {
 							id="fecha_fin"
 							className="w-full px-3 py-2 border border-gray-300 rounded"
 							value={newFormacion.fecha_fin || ""}
-							onChange={handleChangeFormacion}
+							onChange={(e) => handleChangeFormacion(e)}
 						/>
-
-
+						<input
+							type="submit"
+							value="Crear Formacion"
+							className="bg-blue-500 text-white w-2/5 mx-auto  mt-4 px-4 py-2 rounded font-semibold hover:bg-blue-600 cursor-pointer"
+						/>
 					</form>
-					<button type="submit" value="Crear Formacion" className="bg-blue-500 text-white  mt-4 px-4 py-2 rounded font-semibold hover:bg-blue-600">Crear Formación</button>
 				</div>
 			</div>
 		</div>
@@ -170,7 +169,6 @@ function VistaGeneral() {
 }
 
 export default VistaGeneral;
-
 
 /*
 <form

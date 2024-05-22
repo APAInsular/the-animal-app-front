@@ -225,8 +225,8 @@ function VistaPadrinos() {
 									Usuario (opcional)
 								</label>
 								<select
-									name="usuario_id"
-									id="usuario_id"
+									name="user_id"
+									id="user_id"
 									className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
 									onChange={(e) => handleChange(e)}
 									value={newPadrino.usuario_id}

@@ -14,6 +14,39 @@ function VistaTareas() {
 	const [volunteer, setVolunteer] = useState([]);
 	const [animal, setAnimal] = useState([]);
 	const [tareas, setTareas] = useState([]);
+	const [newTarea, setNewTarea] = useState([]);
+
+	const handleChange = (event) => {
+		const { name, value, checked } = event.target;
+		setNewTarea({
+			...newTarea,
+			[name]: value,
+		});
+		if (name == "SeRepite") {
+			setNewTarea({
+				...newTarea,
+				[name]: checked,
+			});
+		}
+	};
+
+	const handleNewTarea = (e) => {
+		const userToken = JSON.parse(localStorage.getItem("token"));
+		e.preventDefault();
+		axios.get(cookieLink).then((response) => {
+			axios
+				.post(getTareas, newTarea, {
+					headers: {
+						"X-CSRF-TOKEN": response.data.token, // Fetch CSRF token asynchronously
+						Authorization: `Bearer ${userToken}`,
+						"Content-Type": "application/json",
+					},
+				})
+				.then((response1) => {
+					setTareas([...tareas, response1.data]);
+				});
+		});
+	};
 
 	useEffect(() => {
 		axios.get(cookieLink).then(function () {
@@ -37,7 +70,11 @@ function VistaTareas() {
 		<div className=" flex flex-row">
 			<div className="hidden lg:block w-3/12 p-2 border-e-2 border-black">
 				<div className="w-full">
-					<form className="h-full w-full bg-[#d9d9d9] flex flex-col border border-black rounded-lg p-2">
+					<form
+						className="h-full w-full bg-[#d9d9d9] flex flex-col border border-black rounded-lg p-2"
+						onSubmit={(e) => handleNewTarea(e)}
+					>
+						<h2 className="text-center text-xl font-bold">Crear Tarea</h2>
 						<label className="font-bold text-xl mt-2" htmlFor="name">
 							Nombre
 						</label>
@@ -46,6 +83,8 @@ function VistaTareas() {
 							name="nombre"
 							id="nombre"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
+							onChange={(e) => handleChange(e)}
+							value={newTarea.nombre}
 						/>
 						<label className="font-bold text-xl mt-2" htmlFor="description">
 							Descripcion
@@ -56,6 +95,8 @@ function VistaTareas() {
 							cols="20"
 							rows="10"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] h-24 mt-1 resize-none"
+							onChange={(e) => handleChange(e)}
+							value={newTarea.descripcion}
 						></textarea>
 						<div className="mt-2">
 							<label className="font-bold text-xl" htmlFor="repit">
@@ -66,6 +107,8 @@ function VistaTareas() {
 								name="SeRepite"
 								id="SeRepite"
 								className="ms-4"
+								onChange={(e) => handleChange(e)}
+								checked={newTarea.SeRepite}
 							/>
 						</div>
 						<label className="font-bold text-xl mt-2" htmlFor="date">
@@ -76,6 +119,8 @@ function VistaTareas() {
 							name="fecha"
 							id="fecha"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
+							onChange={(e) => handleChange(e)}
+							value={newTarea.fecha}
 						/>
 						<label className="font-bold text-xl mt-2" htmlFor="volunteer">
 							Voluntario
@@ -84,6 +129,8 @@ function VistaTareas() {
 							name="voluntario_id"
 							id="voluntario_id"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
+							onChange={(e) => handleChange(e)}
+							value={newTarea.voluntario_id}
 						>
 							<option value={null}>Escoge</option>
 							{volunteer.map((voluntario, index) => (
@@ -99,6 +146,8 @@ function VistaTareas() {
 							name="animal_id"
 							id="animal_id"
 							className="border border-black rounded-md shadow-md p-1 bg-[#f4f0f0] mt-1"
+							onChange={(e) => handleChange(e)}
+							value={newTarea.animal_id}
 						>
 							<option value={null}>Escoge</option>
 							{animal.map((animals, index) => (
@@ -119,12 +168,14 @@ function VistaTareas() {
 				</div>
 			</div>
 			<div className="hidden lg:block w-full">
+				<h2 className="text-2xl text-center font-bold">Tareas</h2>
 				<div className="w-full p-1 flex flex-row">
 					<input
 						type="text"
 						name="search"
 						id="search"
 						className="bg-[#f4f0f0] rounded-md p-2 border border-black w-[100%] mt-1"
+						placeholder="Busqueda por nombre"
 					/>
 					<button className="-ms-7">
 						<FaMagnifyingGlass />
