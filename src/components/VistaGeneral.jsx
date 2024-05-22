@@ -1,46 +1,19 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-	cookieLink,
-	createUser,
-	getAllUsers,
-	getEspecies,
-	getFormacion,
-} from "../data/data";
+import axios from "axios";
+import { createUser, getEspecies, getFormacion } from "../data/data";
 
 function VistaGeneral() {
+	// Estado para los datos de nuevos usuarios, especies y formaciones
 	const [newUser, setNewUser] = useState({});
 	const [newEspecie, setNewEspecie] = useState({});
 	const [newFormacion, setNewFormacion] = useState({});
 
+	// Estado para almacenar usuarios, especies y formaciones existentes
 	const [users, setUsers] = useState([]);
 	const [especies, setEspecies] = useState([]);
 	const [formaciones, setFormaciones] = useState([]);
 
-	useEffect(() => {
-		const userToken = JSON.parse(localStorage.getItem("token"));
-		axios.get(cookieLink).then((response) => {
-			const csrfToken = response.data.token;
-			const headers = {
-				"X-CSRF-TOKEN": csrfToken,
-				Authorization: `Bearer ${userToken}`,
-				"Content-Type": "application/json",
-			};
-
-			axios.get(getEspecies, { headers }).then((response1) => {
-				setEspecies(response1.data);
-			});
-
-			axios.get(getFormacion, { headers }).then((response1) => {
-				setFormaciones(response1.data);
-			});
-
-			axios.get(getAllUsers, { headers }).then((response1) => {
-				setUsers(response1.data);
-			});
-		});
-	}, []);
-
+	// Función para manejar el cambio en los campos de usuario
 	const handleChangeUser = (event) => {
 		const { name, value } = event.target;
 		setNewUser({
@@ -49,6 +22,7 @@ function VistaGeneral() {
 		});
 	};
 
+	// Función para manejar el cambio en los campos de especie
 	const handleChangeEspecie = (event) => {
 		const { name, value } = event.target;
 		setNewEspecie({
@@ -57,6 +31,7 @@ function VistaGeneral() {
 		});
 	};
 
+	// Función para manejar el cambio en los campos de formación
 	const handleChangeFormacion = (event) => {
 		const { name, value } = event.target;
 		setNewFormacion({
@@ -65,99 +40,140 @@ function VistaGeneral() {
 		});
 	};
 
-	const handleSubmit = (event, tipo) => {
+	// Función para enviar el formulario según el tipo (usuario, especie, formación)
+	const handleSubmit = async (event, tipo) => {
 		event.preventDefault();
-		const userToken = JSON.parse(localStorage.getItem("token"));
-		axios.get(cookieLink).then((response) => {
-			const csrfToken = response.data.token;
-			const headers = {
-				"X-CSRF-TOKEN": csrfToken,
-				Authorization: `Bearer ${userToken}`,
-				"Content-Type": "application/json",
-			};
 
+		try {
+			let response;
+
+			// Lógica de envío del formulario según el tipo
 			if (tipo === "user") {
-				axios.post(createUser, newUser, { headers }).then((response1) => {
-					setUsers([...users, response1.data]);
-				});
+				response = await axios.post(createUser, newUser);
+				setUsers([...users, response.data]);
 			} else if (tipo === "especie") {
-				axios.post(getEspecies, newEspecie, { headers }).then((response1) => {
-					setEspecies([...especies, response1.data]);
-				});
+				response = await axios.post(getEspecies, newEspecie);
+				setEspecies([...especies, response.data]);
 			} else if (tipo === "formacion") {
-				axios
-					.post(getFormacion, newFormacion, { headers })
-					.then((response1) => {
-						setFormaciones([...formaciones, response1.data]);
-					});
+				response = await axios.post(getFormacion, newFormacion);
+				setFormaciones([...formaciones, response.data]);
 			}
-		});
+
+			// Reiniciar los campos de entrada después de enviar el formulario
+			setNewUser({});
+			setNewEspecie({});
+			setNewFormacion({});
+		} catch (error) {
+			console.error("Error al enviar el formulario:", error);
+		}
 	};
 
+	// Lógica para cargar los datos iniciales al cargar la página
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const [especiesResponse, formacionesResponse] = await Promise.all([
+					axios.get(getEspecies),
+					axios.get(getFormacion),
+				]);
+				setEspecies(especiesResponse.data);
+				setFormaciones(formacionesResponse.data);
+			} catch (error) {
+				console.error("Error al cargar datos iniciales:", error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
 	return (
-		<div className="flex justify-evenly mt-6">
-			<div className="p-1 rounded-lg bg-[#d9d9d9] border border-black w-[30%]">
-				<h2 className="text-xl text-center">Crear Usuario</h2>
-				<form
-					className="flex flex-col p-1"
-					onSubmit={(e) => handleSubmit(e, "user")}
-				>
-					<label htmlFor="name" className="text-center font-bold">
-						Nombre
-					</label>
-					<input
-						type="text"
-						name="name"
-						id="name"
-						className="border border-black p-1 rounded-lg"
-						value={newUser.name || ""}
-						onChange={handleChangeUser}
-					/>
-					<label htmlFor="email" className="text-center font-bold">
-						Email
-					</label>
-					<input
-						type="email"
-						name="email"
-						id="email"
-						className="border border-black p-1 rounded-lg"
-						value={newUser.email || ""}
-						onChange={handleChangeUser}
-					/>
-					<input
-						type="submit"
-						value="Crear Usuario"
-						className="p-1 rounded-lg border border-black mt-2 font-bold bg-[#eeeded] "
-					/>
-				</form>
+		<div className="container mx-auto mt-8">
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+				{/* Formulario para crear usuario */}
+				<div className="bg-white p-4 rounded-lg shadow">
+					<h2 className="text-xl font-semibold mb-4">Crear Usuario</h2>
+					<form onSubmit={(e) => handleSubmit(e, "user")}>
+						<div className="mb-4">
+							<label htmlFor="name" className="block font-semibold mb-2">Nombre</label>
+							<input
+								type="text"
+								name="name"
+								id="name"
+								className="w-full px-3 py-2 border border-gray-300 rounded"
+								value={newUser.name || ""}
+								onChange={handleChangeUser}
+							/>
+						</div>
+						<div className="mb-4">
+							<label htmlFor="email" className="block font-semibold mb-2">Email</label>
+							<input
+								type="email"
+								name="email"
+								id="email"
+								className="w-full px-3 py-2 border border-gray-300 rounded"
+								value={newUser.email || ""}
+								onChange={handleChangeUser}
+							/>
+						</div>
+						<button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded font-semibold hover:bg-blue-600">Crear Usuario</button>
+					</form>
+				</div>
+
+				{/* Formulario para crear formación */}
+				<div className="bg-white p-4 rounded-lg shadow">
+					<h2 className="text-xl font-semibold mb-4">Crear Formación</h2>
+					<form
+						className="flex flex-col"
+						onSubmit={(e) => handleSubmit(e, "formacion")}
+					>
+						<label htmlFor="nombre" className="block font-semibold mb-2">
+							Nombre
+						</label>
+						<input
+							type="text"
+							name="nombre"
+							id="nombre"
+							className="w-full px-3 py-2 border border-gray-300 rounded"
+							value={newFormacion.nombre || ""}
+							onChange={handleChangeFormacion}
+						/>
+						<label htmlFor="fecha_inicio" className="block font-semibold mb-2">
+							Fecha Inicio
+						</label>
+						<input
+							type="date"
+							name="fecha_inicio"
+							id="fecha_inicio"
+							className="w-full px-3 py-2 border border-gray-300 rounded"
+							value={newFormacion.fecha_inicio || ""}
+							onChange={handleChangeFormacion}
+						/>
+						<label htmlFor="fecha_final" className="block font-semibold mb-2">
+							Fecha Final
+						</label>
+						<input
+							type="date"
+							name="fecha_fin"
+							id="fecha_fin"
+							className="w-full px-3 py-2 border border-gray-300 rounded"
+							value={newFormacion.fecha_fin || ""}
+							onChange={handleChangeFormacion}
+						/>
+
+
+					</form>
+					<button type="submit" value="Crear Formacion" className="bg-blue-500 text-white  mt-4 px-4 py-2 rounded font-semibold hover:bg-blue-600">Crear Formación</button>
+				</div>
 			</div>
-			<div className="p-1 rounded-lg bg-[#d9d9d9] border border-black w-[30%]">
-				<h2 className="text-xl text-center">Crear Especie</h2>
-				<form
-					className="flex flex-col"
-					onSubmit={(e) => handleSubmit(e, "especie")}
-				>
-					<label htmlFor="nombre" className="text-center font-bold">
-						Nombre
-					</label>
-					<input
-						type="text"
-						name="nombre"
-						id="nombre"
-						className="border border-black p-1 rounded-lg"
-						value={newEspecie.nombre || ""}
-						onChange={handleChangeEspecie}
-					/>
-					<input
-						type="submit"
-						value="Crear Especie"
-						className="p-1 rounded-lg border border-black mt-2 font-bold bg-[#eeeded] "
-					/>
-				</form>
-			</div>
-			<div className="p-1 rounded-lg bg-[#d9d9d9] border border-black w-[30%]">
-				<h2 className="text-xl text-center">Crear Formacion</h2>
-				<form
+		</div>
+	);
+}
+
+export default VistaGeneral;
+
+
+/*
+<form
 					className="flex flex-col"
 					onSubmit={(e) => handleSubmit(e, "formacion")}
 				>
@@ -199,10 +215,4 @@ function VistaGeneral() {
 						value="Crear Formacion"
 						className="p-1 rounded-lg border border-black mt-2 font-bold bg-[#eeeded] "
 					/>
-				</form>
-			</div>
-		</div>
-	);
-}
-
-export default VistaGeneral;
+				</form>*/
