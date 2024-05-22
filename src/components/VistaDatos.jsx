@@ -8,16 +8,25 @@ function VistaDatos() {
     const [animalData, setAnimalData] = useState(null);
     const [volunteerData, setVolunteerData] = useState(null);
     const [taskData, setTaskData] = useState(null);
-    const [userData, setUserData] = useState([]); // Inicializado como un array vacío
+    const [userData, setUserData] = useState([]);
 
     useEffect(() => {
         // Obtener datos de animales
         axios.get(getAnimales)
             .then(response => {
-                console.log('Datos de animales:', response.data); // Log de depuración
+                console.log('Datos de animales:', response.data);
                 const data = response.data;
+
+                // Transformar los datos para contar animales por mes
+                const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                const animalCounts = new Array(12).fill(0); // Inicializar array con 12 ceros
+                data.forEach(animal => {
+                    const month = new Date(animal.fecha_llegada).getMonth();
+                    animalCounts[month]++;
+                });
+
                 const animalChartData = {
-                    labels: data.months,
+                    labels: months,
                     datasets: [
                         {
                             label: 'Animales Ingresados',
@@ -26,7 +35,7 @@ function VistaDatos() {
                             borderWidth: 1,
                             hoverBackgroundColor: '#63B3ED',
                             hoverBorderColor: '#63B3ED',
-                            data: data.counts,
+                            data: animalCounts,
                         },
                     ],
                 };
@@ -37,10 +46,19 @@ function VistaDatos() {
         // Obtener datos de voluntarios
         axios.get(getVolunteers)
             .then(response => {
-                console.log('Datos de voluntarios:', response.data); // Log de depuración
+                console.log('Datos de voluntarios:', response.data);
                 const data = response.data;
+
+                // Transformar los datos para contar voluntarios por mes
+                const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                const volunteerCounts = new Array(12).fill(0); // Inicializar array con 12 ceros
+                data.forEach(volunteer => {
+                    const month = new Date(volunteer.disponibilidad).getMonth();
+                    volunteerCounts[month]++;
+                });
+
                 const volunteerChartData = {
-                    labels: data.months,
+                    labels: months,
                     datasets: [
                         {
                             label: 'Voluntarios Registrados',
@@ -61,7 +79,7 @@ function VistaDatos() {
                             pointHoverBorderWidth: 2,
                             pointRadius: 1,
                             pointHitRadius: 10,
-                            data: data.counts,
+                            data: volunteerCounts,
                         },
                     ],
                 };
@@ -72,8 +90,23 @@ function VistaDatos() {
         // Obtener datos de tareas
         axios.get(getTareas)
             .then(response => {
-                console.log('Datos de tareas:', response.data); // Log de depuración
+                console.log('Datos de tareas:', response.data);
                 const data = response.data;
+                const now = new Date();
+
+                // Contar las tareas por estado
+                let completed = 0, pending = 0, overdue = 0;
+                data.forEach(task => {
+                    const taskDate = new Date(task.fecha);
+                    if (task.finalizada === 1) {
+                        completed++;
+                    } else if (task.finalizada === 0 && taskDate >= now) {
+                        pending++;
+                    } else if (task.finalizada === 0 && taskDate < now) {
+                        overdue++;
+                    }
+                });
+
                 const taskChartData = {
                     labels: ['Completadas', 'Pendientes', 'Atrasadas'],
                     datasets: [
@@ -84,7 +117,7 @@ function VistaDatos() {
                             borderWidth: 1,
                             hoverBackgroundColor: ['#4CAF50', '#FFC107', '#FF6384'],
                             hoverBorderColor: '#fff',
-                            data: [data.completed, data.pending, data.overdue],
+                            data: [completed, pending, overdue],
                         },
                     ],
                 };
@@ -95,9 +128,9 @@ function VistaDatos() {
         // Obtener datos de usuarios
         axios.get(getAllUsers)
             .then(response => {
-                console.log('Datos de usuarios:', response.data); // Log de depuración
+                console.log('Datos de usuarios:', response.data.users);
                 // Asegurarse de que la respuesta sea un array
-                const user = Array.isArray(response.data) ? response.data : [];
+                const user = Array.isArray(response.data.users) ? response.data.users : [];
                 setUserData(user);
             })
             .catch(error => console.error('Error al obtener datos de usuarios:', error));
@@ -125,19 +158,19 @@ function VistaDatos() {
                 <div className="bg-white p-4 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-2">Animales Ingresados por Mes</h2>
                     <div className="mt-4">
-                        {animalData ? <Bar data={animalData} options={commonOptions} /> : <p>Cargando datos...</p>}
+                        {animalData && <Bar data={animalData} options={commonOptions} />}
                     </div>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-2">Voluntarios</h2>
                     <div className="mt-4">
-                        {volunteerData ? <Line data={volunteerData} options={commonOptions} /> : <p>Cargando datos...</p>}
+                        {volunteerData && <Line data={volunteerData} options={commonOptions} />}
                     </div>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-2">Tareas Completadas</h2>
                     <div className="mt-4">
-                        {taskData ? <Doughnut data={taskData} options={commonOptions} /> : <p>Cargando datos...</p>}
+                        {taskData && <Doughnut data={taskData} options={commonOptions} />}
                     </div>
                 </div>
             </div>
@@ -158,7 +191,7 @@ function VistaDatos() {
                                 <td className="px-6 py-4 whitespace-nowrap">{user.id}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{user.created_at}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">{new Date(user.created_at).toLocaleDateString()}</td>
                             </tr>
                         ))}
                     </tbody>
