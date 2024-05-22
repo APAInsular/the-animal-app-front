@@ -53,7 +53,7 @@ function VistaAnimales() {
 	return (
 		<>
 			<div className="flex justify-center mt-4 px-4">
-				<div className="collapse collapse-arrow border border-black bg-lime-400">
+				<div className="collapse collapse-arrow border border-black bg-lime-400 transition-all duration-500 ease-in-out">
 					<input type="checkbox" className="peer" />
 					<div className="collapse-title text-2xl font-medium text-black flex items-center justify-center cursor-pointer">
 						<span>Añadir nuevo animal</span>
