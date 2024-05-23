@@ -1,3 +1,7 @@
+// Hecho por lucas y yeray.
+// Diseño hecho por Yeray 
+// Logica, conexion con el back hecho por lucas
+
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
@@ -192,43 +196,6 @@ function AnimalCard({ datos, onEdit, onDelete }) {
             ))}
             <button type="button" onClick={handleAddVacunacion} className="btn btn-primary mb-4">Añadir Vacuna</button>
 
-            {/* ----------- NECESIDADES FUNCIONALES ---------------------
-            {animalData.necesidades_y_cuidados.map((necesidad, index) => (
-              <div key={index} className="border rounded-lg p-2 mb-2">
-                <h4 className="font-bold">Necesidad {index + 1}</h4>
-                <input type="date" name="fecha" value={necesidad.fecha} onChange={(event) => handleNecesidadesChange(index, event)} className="input input-bordered w-full mb-2" />
-                <textarea name="nombre" value={necesidad.nombre} onChange={(event) => handleNecesidadesChange(index, event)} placeholder="Descripción" className="textarea textarea-bordered w-full" />
-              </div>
-            ))}
-            <button type="button" onClick={handleAddNecesidades} className="btn btn-primary mb-4">Añadir necesidad</button> */}
-            {/* ESTO GENERA HISTORIALES MEDICOS ENCIMA DEL BOTON DE AÑADIR HISTORIAL MEDICO 
-            <button type="button" onClick={handleAddHistorial} className="btn btn-primary mb-4">Añadir Historial Médico</button>
-            {animalData.historiales_medicos.map((historial, index) => (
-              <div key={index} className="border rounded-lg p-2 mb-2">
-                <h4 className="font-bold">Vacunación {index + 1}</h4>
-                <input type="text" name="nombre" value={historial.descripcion} onChange={(event) => handleHistorialChange(index, event)} placeholder="Nombre de la vacuna" className="input input-bordered w-full mb-2" />
-                <input type="date" name="fecha" value={historial.fecha} onChange={(event) => handleHistorialChange(index, event)} className="input input-bordered w-full mb-2" />
-              </div>
-            ))} */}
-
-            {/* ESTO GENERA NECESIADES ENCIMA DEL BOTON DE AÑADIR NECESIDADES  */}
-            {/* <button type="button" onClick={handleAddVacunacion} className="btn btn-primary mb-4">Añadir Vacunación</button>
-            {animalData.necesidades_y_cuidados.map((necesidad, index) => (
-              <div key={index} className="border rounded-lg p-2 mb-2">
-                <h4 className="font-bold">Necesidad {index + 1}</h4>
-                <textarea name="descripcion" value={necesidad.descripcion} onChange={(event) => handleNecesidadesChange(index, event)} placeholder="Descripción" className="textarea textarea-bordered w-full mb-2" />
-              </div>
-            ))} */}
-
-            {/* ESTO GENERA NECESIDADES DEBAJO DEL BOTON DE AÑADIR NECESIDADES */}
-            {/* <button type="button" onClick={handleAddNecesidades} className="btn btn-primary mb-4">Añadir Necesidad</button>
-            {animalData.necesidades_y_cuidados.map((necesidad, index) => (
-              <div key={index} className="border rounded-lg p-2 mb-2">
-                <h4 className="font-bold">Necesidad {index + 1}</h4>
-                <textarea name="descripcion" value={necesidad.descripcion} onChange={(event) => handleNecesidadesChange(index, event)} placeholder="Descripción" className="textarea textarea-bordered w-full mb-2" />
-              </div>
-            ))} */}
-            {/* <button type="button" className="btn btn-primary mb-4">Añadir Cuidado</button> */}
             <div className="flex justify-between">
               <button type="button" onClick={handleEdit} className="btn btn-success">Guardar</button>
               <button type="button" onClick={() => setIsEditing(false)} className="btn btn-error">Cancelar</button>

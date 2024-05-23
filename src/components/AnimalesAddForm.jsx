@@ -1,3 +1,7 @@
+// Hecho por lucas y yeray.
+// Diseño hecho por Yeray 
+// Logica, conexion con el back hecho por lucas
+
 import "../index.css";
 import { useState } from "react";
 import axios from "axios";

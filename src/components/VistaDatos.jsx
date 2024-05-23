@@ -1,3 +1,8 @@
+// Hecho por lucas y yeray.
+// Diseño hecho por Yeray 
+// Logica, conexion con el back hecho por lucas
+
+
 import { useState, useEffect } from 'react';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
